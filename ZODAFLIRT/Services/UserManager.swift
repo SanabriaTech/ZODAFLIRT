@@ -17,7 +17,6 @@ class UserManager: ObservableObject {
     private let imageKey = "profileImage"
 
     init() {
-        // Load saved profile or create new one
         if let data = UserDefaults.standard.data(forKey: userDefaultsKey),
            let decoded = try? JSONDecoder().decode(UserProfile.self, from: data) {
             self.userProfile = decoded
@@ -25,7 +24,6 @@ class UserManager: ObservableObject {
             self.userProfile = UserProfile()
         }
 
-        // Load saved image
         if let imageData = UserDefaults.standard.data(forKey: imageKey),
            let image = UIImage(data: imageData) {
             self.profileImage = image
@@ -40,12 +38,21 @@ class UserManager: ObservableObject {
 
     func saveProfileImage(_ image: UIImage?) {
         profileImage = image
+        userProfile.usesZodiacAsAvatar = (image == nil)
         if let image = image,
            let data = image.jpegData(compressionQuality: 0.8) {
             UserDefaults.standard.set(data, forKey: imageKey)
         } else {
             UserDefaults.standard.removeObject(forKey: imageKey)
         }
+        save()
+    }
+
+    func useZodiacAsAvatar() {
+        profileImage = nil
+        userProfile.usesZodiacAsAvatar = true
+        UserDefaults.standard.removeObject(forKey: imageKey)
+        save()
     }
 
     func updateBirthday(_ date: Date) {
@@ -63,6 +70,29 @@ class UserManager: ObservableObject {
         save()
     }
 
+    func updateAstrologyExperience(_ experience: AstrologyExperience) {
+        userProfile.astrologyExperience = experience.rawValue
+        save()
+    }
+
+    func updateDatingIntents(_ intents: [DatingIntent]) {
+        userProfile.datingIntents = intents.map { $0.rawValue }
+        save()
+    }
+
+    func toggleDatingIntent(_ intent: DatingIntent) {
+        if userProfile.datingIntents.contains(intent.rawValue) {
+            userProfile.datingIntents.removeAll { $0 == intent.rawValue }
+        } else {
+            userProfile.datingIntents.append(intent.rawValue)
+        }
+        save()
+    }
+
+    func hasDatingIntent(_ intent: DatingIntent) -> Bool {
+        userProfile.datingIntents.contains(intent.rawValue)
+    }
+
     func toggleSavedSign(_ sign: ZodiacSign) {
         userProfile.toggleSave(for: sign)
         save()
@@ -75,5 +105,12 @@ class UserManager: ObservableObject {
     func completeOnboarding() {
         userProfile.hasCompletedOnboarding = true
         save()
+    }
+
+    func resetOnboarding() {
+        userProfile = UserProfile()
+        profileImage = nil
+        UserDefaults.standard.removeObject(forKey: userDefaultsKey)
+        UserDefaults.standard.removeObject(forKey: imageKey)
     }
 }

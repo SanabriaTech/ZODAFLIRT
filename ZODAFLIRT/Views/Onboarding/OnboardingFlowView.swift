@@ -7,42 +7,102 @@
 
 import SwiftUI
 
-enum OnboardingStep {
-    case yourDetails
-}
-
 struct OnboardingFlowView: View {
     @EnvironmentObject var userManager: UserManager
     @Binding var hasCompletedOnboarding: Bool
     let onDismiss: () -> Void
 
-    @State private var currentStep: OnboardingStep = .yourDetails
-    @State private var userName: String = ""
+    @State private var currentStep: OnboardingStep = .birthday
     @State private var userBirthday: Date = Calendar.current.date(byAdding: .year, value: -25, to: Date()) ?? Date()
-    @State private var userGender: Gender? = nil
+    @State private var selectedExperience: AstrologyExperience? = nil
+    @State private var selectedIntents: Set<DatingIntent> = []
+
+    private var userSign: ZodiacSign {
+        ZodiacSign.from(date: userBirthday)
+    }
 
     var body: some View {
         Group {
             switch currentStep {
-            case .yourDetails:
-                YourDetailsView(
-                    userName: $userName,
-                    userBirthday: $userBirthday,
-                    userGender: $userGender,
+            case .birthday:
+                BirthdayEntryView(
+                    birthday: $userBirthday,
                     onContinue: {
-                        // Save all data to UserManager
-                        userManager.updateName(userName)
                         userManager.updateBirthday(userBirthday)
-                        userManager.updateGender(userGender)
-                        userManager.completeOnboarding()
-                        hasCompletedOnboarding = true
+                        goToStep(.zodiacReveal)
                     },
                     onBack: {
                         onDismiss()
                     }
                 )
+
+            case .zodiacReveal:
+                ZodiacRevealView(
+                    sign: userSign,
+                    onContinue: {
+                        goToStep(.profilePhoto)
+                    },
+                    onBack: {
+                        goToStep(.birthday)
+                    }
+                )
+
+            case .profilePhoto:
+                ProfilePhotoView(
+                    sign: userSign,
+                    onContinue: {
+                        goToStep(.experience)
+                    },
+                    onBack: {
+                        goToStep(.zodiacReveal)
+                    }
+                )
+                .environmentObject(userManager)
+
+            case .experience:
+                AstrologyExperienceView(
+                    selectedExperience: $selectedExperience,
+                    onContinue: {
+                        if let experience = selectedExperience {
+                            userManager.updateAstrologyExperience(experience)
+                        }
+                        goToStep(.datingIntent)
+                    },
+                    onBack: {
+                        goToStep(.profilePhoto)
+                    }
+                )
+
+            case .datingIntent:
+                DatingIntentView(
+                    selectedIntents: $selectedIntents,
+                    onContinue: {
+                        userManager.updateDatingIntents(Array(selectedIntents))
+                        goToStep(.summary)
+                    },
+                    onBack: {
+                        goToStep(.experience)
+                    }
+                )
+
+            case .summary:
+                OnboardingSummaryView(
+                    sign: userSign,
+                    onContinue: {
+                        userManager.completeOnboarding()
+                        hasCompletedOnboarding = true
+                    },
+                    onBack: {
+                        goToStep(.datingIntent)
+                    }
+                )
             }
         }
+        .animation(.easeInOut(duration: 0.3), value: currentStep)
+    }
+
+    private func goToStep(_ step: OnboardingStep) {
+        currentStep = step
     }
 }
 

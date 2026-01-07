@@ -17,12 +17,23 @@ enum Gender: String, CaseIterable, Identifiable, Codable {
     var id: String { rawValue }
 }
 
+// MARK: - Astrology Experience Level
+
+enum AstrologyExperience: String, CaseIterable, Identifiable, Codable {
+    case curious = "Just curious"
+    case basics = "Know the basics"
+    case expert = "Very into astrology"
+
+    var id: String { rawValue }
+}
+
 // MARK: - Dating Intent
 
 enum DatingIntent: String, CaseIterable, Identifiable, Codable {
-    case casual = "Casual"
-    case serious = "Serious"
-    case curious = "Just Curious"
+    case casual = "Casual dating"
+    case hookups = "Hookups / chemistry"
+    case longTerm = "Long-term relationships"
+    case exploring = "Just exploring"
 
     var id: String { rawValue }
 }
@@ -33,16 +44,20 @@ struct UserProfile: Codable {
     var name: String?
     var birthday: Date?
     var gender: String?
-    var datingIntent: String?
+    var astrologyExperience: String?
+    var datingIntents: [String]
     var savedSigns: [String]
+    var usesZodiacAsAvatar: Bool
     var hasCompletedOnboarding: Bool
 
     init() {
         self.name = nil
         self.birthday = nil
         self.gender = nil
-        self.datingIntent = nil
+        self.astrologyExperience = nil
+        self.datingIntents = []
         self.savedSigns = []
+        self.usesZodiacAsAvatar = false
         self.hasCompletedOnboarding = false
     }
 

@@ -64,7 +64,7 @@ struct HomeView: View {
                     .padding(.bottom, 8)
 
                     // Subtitle
-                    Text("Choose the sign you're interested in seducing!")
+                    Text("Now, who are you curious about?")
                         .font(AppTheme.sansFont(size: 15))
                         .foregroundColor(AppTheme.textSecondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
