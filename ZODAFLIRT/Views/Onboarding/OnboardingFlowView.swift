@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OnboardingFlowView: View {
-    @EnvironmentObject var userManager: UserManager
+    @Environment(UserManager.self) var userManager
     @Binding var hasCompletedOnboarding: Bool
     let onDismiss: () -> Void
 
@@ -57,7 +57,7 @@ struct OnboardingFlowView: View {
                         goToStep(.zodiacReveal)
                     }
                 )
-                .environmentObject(userManager)
+                .environment(userManager)
 
             case .experience:
                 AstrologyExperienceView(
@@ -111,5 +111,5 @@ struct OnboardingFlowView: View {
         hasCompletedOnboarding: .constant(false),
         onDismiss: { }
     )
-    .environmentObject(UserManager())
+    .environment(UserManager())
 }

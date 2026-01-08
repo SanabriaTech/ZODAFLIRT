@@ -42,11 +42,13 @@ struct ProfileSection: Identifiable {
     let id = UUID()
     let title: String
     let content: String
+    let teaser: String?
     let isPremium: Bool
 
-    init(title: String, content: String, isPremium: Bool = false) {
+    init(title: String, content: String, teaser: String? = nil, isPremium: Bool = false) {
         self.title = title
         self.content = content
+        self.teaser = teaser
         self.isPremium = isPremium
     }
 }

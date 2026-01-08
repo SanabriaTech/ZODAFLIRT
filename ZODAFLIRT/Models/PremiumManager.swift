@@ -6,22 +6,33 @@
 //
 
 import Foundation
-import Combine
-import SwiftUI
+import Observation
 
-class PremiumManager: ObservableObject {
-    @Published var isPremium: Bool = false
+@Observable
+@MainActor
+final class PremiumManager {
+    var isPremium: Bool = false
 
-    func checkPremiumStatus() {
-        // MVP stub - always false
+    private var storeKitManager: StoreKitManager?
+
+    init() {
+        // Will be connected to StoreKitManager
     }
 
-    func purchasePremium() {
-        // MVP stub - toggle for testing
-        isPremium = true
+    func configure(with storeKitManager: StoreKitManager) {
+        self.storeKitManager = storeKitManager
+
+        // Set initial state
+        isPremium = storeKitManager.hasActiveSubscription
     }
 
-    func restorePurchases() {
-        // MVP stub
+    func updateFromStoreKit() {
+        guard let storeKitManager else { return }
+        isPremium = storeKitManager.hasActiveSubscription
+    }
+
+    // For testing/debug purposes
+    func togglePremium() {
+        isPremium.toggle()
     }
 }

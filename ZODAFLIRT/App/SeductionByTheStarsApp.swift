@@ -9,15 +9,20 @@ import SwiftUI
 
 @main
 struct SeductionByTheStarsApp: App {
-    @StateObject private var premiumManager = PremiumManager()
-    @StateObject private var userManager = UserManager()
+    @State private var storeKitManager = StoreKitManager()
+    @State private var premiumManager = PremiumManager()
+    @State private var userManager = UserManager()
 
     var body: some Scene {
         WindowGroup {
             MainAppView()
-                .environmentObject(premiumManager)
-                .environmentObject(userManager)
+                .environment(storeKitManager)
+                .environment(premiumManager)
+                .environment(userManager)
                 .preferredColorScheme(.dark)
+                .task {
+                    premiumManager.configure(with: storeKitManager)
+                }
         }
     }
 }

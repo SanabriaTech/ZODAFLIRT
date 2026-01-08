@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct ProfilePhotoView: View {
-    @EnvironmentObject var userManager: UserManager
+    @Environment(UserManager.self) var userManager
     let sign: ZodiacSign
     let onContinue: () -> Void
     let onBack: () -> Void
@@ -182,5 +182,5 @@ struct ProfilePhotoView: View {
         onContinue: { },
         onBack: { }
     )
-    .environmentObject(UserManager())
+    .environment(UserManager())
 }

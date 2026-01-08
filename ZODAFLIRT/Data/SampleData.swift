@@ -44,7 +44,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Competitive Spark",
-                    description: "Challenge them to something—a game, a bet, a race. Let the tension build through competition. Aries gets turned on by winning, but even more by someone who almost beats them."
+                    description: "Challenge them to something—a game, a bet, a race. Aries gets turned on by winning, but even more by someone who almost beats them."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -62,6 +62,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Aries likes it passionate and intense. They're not into slow, tender moments early on—they want fire. Physical chemistry with Aries is competitive, playful, and urgent. They like to lead but respect someone who can push back. Don't be passive—match their energy and don't be afraid to initiate.",
+            teaser: "Aries brings fire and urgency to physical connection—they want passion that matches their intensity.",
             isPremium: true
         ),
         mustDos: [
@@ -98,7 +99,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Sensory Experience",
-                    description: "Cook for them—or better yet, cook with them. Good wine, soft music, candlelight. Taurus is seduced through atmosphere and the senses."
+                    description: "Cook for them—or cook with them. Good wine, soft music, candlelight. Taurus is seduced through atmosphere."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -108,7 +109,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 3,
                     title: "The Thoughtful Gesture",
-                    description: "Remember something small they mentioned and surprise them with it weeks later. Taurus is deeply moved by attention to detail and consistency."
+                    description: "Remember something small they mentioned weeks ago and surprise them with it. Taurus is deeply moved by attention to detail and consistency."
                 )
             ],
             isPremiumContent: true
@@ -116,6 +117,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Taurus experiences intimacy through all five senses. They want soft sheets, good scents, and unhurried touch. Physical chemistry with Taurus is slow, intentional, and deeply sensual. They're not interested in quick encounters—they want to fully experience every moment. Patience and presence are everything.",
+            teaser: "Taurus experiences intimacy through all five senses—slow, intentional, and deeply sensual.",
             isPremium: true
         ),
         mustDos: [
@@ -152,7 +154,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Mental Chase",
-                    description: "Start with a playful debate on something unexpected. Let the tension build through wit, not touch. When you finally do get close, whisper something clever only they would appreciate."
+                    description: "Start a playful debate on something unexpected. Let the tension build through wit—when you get close, whisper something clever."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -170,6 +172,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Geminis experience intimacy through communication. They want to talk during, before, and after. Silence can feel disconnecting. Keep the energy playful and varied—they bore easily with routine. Light touch, teasing, and laughter are more arousing than intensity. Their mind is their most erogenous zone.",
+            teaser: "Gemini experiences intimacy through communication—playful, varied, and mentally connected.",
             isPremium: true
         ),
         mustDos: [
@@ -206,7 +209,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Comfort Zone",
-                    description: "Invite them into your space—cook dinner at home, create a cozy atmosphere. Cancers are seduced by domesticity and comfort more than fancy dates."
+                    description: "Invite them into your space—cook dinner at home, create a cozy atmosphere. Cancers are seduced by domesticity."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -224,6 +227,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Cancer experiences intimacy as emotional bonding. Physical connection without emotional safety feels hollow to them. They want tenderness, eye contact, and verbal affirmation. Cuddling matters as much as passion. Make them feel cherished and secure, and they'll give themselves completely.",
+            teaser: "Cancer experiences intimacy as emotional bonding—tenderness and security unlock everything.",
             isPremium: true
         ),
         mustDos: [
@@ -260,7 +264,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Spotlight Share",
-                    description: "Compliment them publicly—in front of friends, not just privately. Leo lives for recognition. Then lean in close and tell them something just for them."
+                    description: "Compliment them publicly—in front of friends. Leo lives for recognition. Then lean in and whisper something just for them."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -278,6 +282,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Leo wants passion with performance. They want to feel desired, admired, and like the connection is special. Verbal affirmation during intimacy goes far—tell them how amazing they are. They're generous lovers but expect enthusiasm in return. Make it feel like an event, not a routine.",
+            teaser: "Leo wants passion with admiration—verbal affirmation and enthusiasm make them come alive.",
             isPremium: true
         ),
         mustDos: [
@@ -314,7 +319,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Detail Play",
-                    description: "Remember something small they mentioned weeks ago and act on it. Virgos are seduced by proof that you actually listen."
+                    description: "Remember something small they mentioned weeks ago and act on it. Virgos are seduced by proof that you listen."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -332,6 +337,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Virgo needs mental comfort before physical connection. They're more sensual than they appear, but they need to feel safe and un-judged first. Cleanliness and attention to detail matter. They appreciate a partner who pays attention to what works and adjusts. Once comfortable, they're attentive and giving lovers.",
+            teaser: "Virgo needs mental comfort first—once safe, they reveal surprising sensuality and attentiveness.",
             isPremium: true
         ),
         mustDos: [
@@ -368,7 +374,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Aesthetic Date",
-                    description: "Take them somewhere beautiful—a gallery, a rooftop at sunset, a restaurant with ambiance. Libras are seduced by environment as much as by words."
+                    description: "Take them somewhere beautiful—a gallery, a rooftop at sunset. Libras are seduced by environment as much as words."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -386,6 +392,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Libra wants intimacy that feels romantic and balanced. They appreciate a partner who takes their time, creates atmosphere, and makes the experience feel mutual. Aesthetics matter—lighting, music, setting. They're giving lovers who want harmony and connection, not just physical release.",
+            teaser: "Libra wants intimacy that feels romantic and mutual—atmosphere and balance are everything.",
             isPremium: true
         ),
         mustDos: [
@@ -440,6 +447,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Scorpio experiences intimacy as transformation. Physical connection is emotional, intense, and profound for them. They want complete presence—no distractions, no holding back. Trust is essential; they need to know they can be vulnerable. Once trust exists, the intensity is unmatched.",
+            teaser: "Scorpio experiences intimacy as transformation—complete presence and trust unlock profound connection.",
             isPremium: true
         ),
         mustDos: [
@@ -476,7 +484,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Adventure Proposal",
-                    description: "Suggest something they've never done. A trip, an experience, a spontaneous plan. Sagittarius is seduced by the promise of new horizons."
+                    description: "Suggest something they've never done—a trip, an experience, a spontaneous plan. Sagittarius is seduced by new horizons."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -494,6 +502,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Sagittarius wants intimacy that feels fun and free. They like spontaneity, playfulness, and a sense of adventure even in physical connection. Don't take things too seriously—laugh together. They're not interested in routine; variety and enthusiasm keep them engaged.",
+            teaser: "Sagittarius wants intimacy that feels fun and free—spontaneity and laughter keep them engaged.",
             isPremium: true
         ),
         mustDos: [
@@ -530,7 +539,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Long Game",
-                    description: "Be consistent over weeks or months. Show up when you say you will. Capricorn is seduced by reliability more than grand gestures."
+                    description: "Be consistent over weeks or months. Show up when you say you will. Capricorn is seduced by reliability."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -548,6 +557,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Capricorn may seem reserved, but they have deep sensual needs. They want intimacy that feels earned and meaningful. Physical connection improves with trust and time. They appreciate a partner who takes charge sometimes, and they're more passionate than their composed exterior suggests.",
+            teaser: "Capricorn has deep sensual needs beneath the reserve—trust and time unlock surprising passion.",
             isPremium: true
         ),
         mustDos: [
@@ -584,7 +594,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Idea Exchange",
-                    description: "Send them an article, theory, or idea that made you think of them. Aquarius is seduced by intellectual stimulation and being understood."
+                    description: "Send them an article or idea that made you think of them. Aquarius is seduced by intellectual stimulation."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -602,6 +612,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Aquarius approaches intimacy with curiosity rather than intensity. They like experimentation and mental engagement even in physical connection. Don't expect traditional romance—they want something more interesting. Emotional pressure kills the mood; keep things light, curious, and exploratory.",
+            teaser: "Aquarius approaches intimacy with curiosity—experimentation and mental engagement over intensity.",
             isPremium: true
         ),
         mustDos: [
@@ -638,7 +649,7 @@ struct SampleData {
                 SeductionScenario(
                     number: 1,
                     title: "The Escape Plan",
-                    description: "Take them somewhere that feels like another world—a beach at night, a hidden garden, somewhere that breaks from ordinary reality. Pisces is seduced by magic."
+                    description: "Take them somewhere that feels like another world—a beach at night, a hidden garden. Pisces is seduced by magic."
                 ),
                 SeductionScenario(
                     number: 2,
@@ -656,6 +667,7 @@ struct SampleData {
         physicalChemistry: ProfileSection(
             title: "Physical Chemistry",
             content: "Pisces experiences intimacy as merging. Physical connection is emotional, spiritual, almost transcendent for them. They want to feel completely connected—eye contact, presence, tenderness. Atmosphere matters enormously; create a dreamy, romantic setting. Roughness or detachment doesn't work with them.",
+            teaser: "Pisces experiences intimacy as merging—emotional, spiritual, and transcendent when the connection is real.",
             isPremium: true
         ),
         mustDos: [

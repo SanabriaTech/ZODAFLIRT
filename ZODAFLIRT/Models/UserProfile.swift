@@ -49,6 +49,8 @@ struct UserProfile: Codable {
     var savedSigns: [String]
     var usesZodiacAsAvatar: Bool
     var hasCompletedOnboarding: Bool
+    var freePlaybookUnlockUsed: Bool
+    var unlockedPlaybookSign: String?
 
     init() {
         self.name = nil
@@ -59,6 +61,8 @@ struct UserProfile: Codable {
         self.savedSigns = []
         self.usesZodiacAsAvatar = false
         self.hasCompletedOnboarding = false
+        self.freePlaybookUnlockUsed = false
+        self.unlockedPlaybookSign = nil
     }
 
     var zodiacSign: ZodiacSign? {

@@ -12,7 +12,9 @@ struct ZodiacProfileView: View {
     let onBack: () -> Void
     let onSave: () -> Void
 
-    @EnvironmentObject var premiumManager: PremiumManager
+    @Environment(PremiumManager.self) var premiumManager
+    @Environment(UserManager.self) var userManager
+    @Environment(StoreKitManager.self) var storeKitManager
     @State private var showPaywall = false
 
     var body: some View {
@@ -46,7 +48,7 @@ struct ZodiacProfileView: View {
                             Image(profile.sign.iconName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 160, height: 160)
+                                .frame(width: 200, height: 200)
 
                             Text(profile.sign.name)
                                 .font(AppTheme.serifFont(size: 32))
@@ -72,7 +74,7 @@ struct ZodiacProfileView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
 
-                        // How to Attract Section
+                        // How to Attract Section (Always Free)
                         VStack(alignment: .leading, spacing: 12) {
                             Text(profile.howToAttract.title)
                                 .font(AppTheme.serifFont(size: 24))
@@ -86,6 +88,20 @@ struct ZodiacProfileView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
+
+                        // Dating Playbook Section
+                        DatingPlaybookSection(
+                            playbook: DatingPlaybookData.getPlaybook(for: profile.sign),
+                            isPremium: premiumManager.isPremium,
+                            hasPlaybookAccess: userManager.hasPlaybookAccess(for: profile.sign),
+                            canUseFreeUnlock: userManager.canUseFreePlaybookUnlock(),
+                            onUseFreeUnlock: {
+                                userManager.useFreePlaybookUnlock(for: profile.sign)
+                            },
+                            onUnlockPremium: {
+                                showPaywall = true
+                            }
+                        )
 
                         // How to Seduce Section
                         VStack(alignment: .leading, spacing: 16) {
@@ -109,8 +125,17 @@ struct ZodiacProfileView: View {
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineSpacing(4)
 
-                            // Scenarios
+                            // Scenarios with Premium Boundary
                             ForEach(Array(profile.howToSeduce.scenarios.enumerated()), id: \.element.id) { index, scenario in
+
+                                // Add premium boundary before second scenario
+                                if index == 1 && profile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
+                                    PremiumBoundaryDivider(message: "This is where things get more personal.")
+                                        .padding(.vertical, 8)
+                                }
+
+                                let isLocked = index > 0 && profile.howToSeduce.isPremiumContent && !premiumManager.isPremium
+
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
                                         Text("Scenario \(scenario.number):")
@@ -123,15 +148,15 @@ struct ZodiacProfileView: View {
 
                                         Spacer()
 
-                                        if index > 0 && profile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
+                                        if isLocked {
                                             Image(systemName: "lock.fill")
                                                 .font(.system(size: 12))
                                                 .foregroundColor(AppTheme.textMuted)
                                         }
                                     }
 
-                                    if index > 0 && profile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
-                                        Text("Unlock premium to reveal this scenario...")
+                                    if isLocked {
+                                        Text("Unlock to discover this scenario...")
                                             .font(AppTheme.sansFont(size: 14))
                                             .foregroundColor(AppTheme.textMuted)
                                             .italic()
@@ -148,14 +173,14 @@ struct ZodiacProfileView: View {
                                 .cornerRadius(12)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .stroke(AppTheme.cardBorder, lineWidth: 1)
+                                        .stroke(isLocked ? AppTheme.cardBorder : AppTheme.cardBorder, lineWidth: 1)
                                 )
                             }
 
-                            // Unlock button
+                            // Unlock button - Sign-specific CTA
                             if profile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
                                 Button(action: { showPaywall = true }) {
-                                    Text("Unlock Full Seduction Playbook")
+                                    Text("Unlock the Full \(profile.sign.name) Playbook")
                                         .font(AppTheme.sansFontMedium(size: 15))
                                         .foregroundColor(AppTheme.accent)
                                         .frame(maxWidth: .infinity)
@@ -172,7 +197,7 @@ struct ZodiacProfileView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
 
-                        // Physical Chemistry Section
+                        // Physical Chemistry Section with Teaser
                         VStack(alignment: .leading, spacing: 12) {
                             HStack {
                                 Text(profile.physicalChemistry.title)
@@ -189,19 +214,48 @@ struct ZodiacProfileView: View {
                             }
 
                             if profile.physicalChemistry.isPremium && !premiumManager.isPremium {
-                                Button(action: { showPaywall = true }) {
-                                    Text("Unlock to reveal physical chemistry insights...")
+                                // Show teaser if available
+                                if let teaser = profile.physicalChemistry.teaser {
+                                    Text(teaser)
                                         .font(AppTheme.sansFont(size: 16))
-                                        .foregroundColor(AppTheme.textMuted)
-                                        .italic()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(16)
-                                        .background(AppTheme.cardBackground)
-                                        .cornerRadius(12)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(AppTheme.cardBorder, lineWidth: 1)
-                                        )
+                                        .foregroundColor(AppTheme.textSecondary)
+                                        .lineSpacing(4)
+                                        .padding(.bottom, 8)
+                                }
+
+                                // Locked content indicator
+                                Button(action: { showPaywall = true }) {
+                                    VStack(spacing: 12) {
+                                        // Blurred placeholder lines
+                                        VStack(alignment: .leading, spacing: 8) {
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .fill(AppTheme.textMuted.opacity(0.2))
+                                                .frame(height: 12)
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .fill(AppTheme.textMuted.opacity(0.15))
+                                                .frame(height: 12)
+                                                .frame(maxWidth: .infinity)
+                                                .padding(.trailing, 60)
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .fill(AppTheme.textMuted.opacity(0.1))
+                                                .frame(height: 12)
+                                                .frame(maxWidth: .infinity)
+                                                .padding(.trailing, 100)
+                                        }
+
+                                        Text("Unlock to reveal more...")
+                                            .font(AppTheme.sansFont(size: 14))
+                                            .foregroundColor(AppTheme.accent)
+                                            .italic()
+                                    }
+                                    .padding(16)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(AppTheme.cardBackground)
+                                    .cornerRadius(12)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(AppTheme.cardBorder, lineWidth: 1)
+                                    )
                                 }
                             } else {
                                 Text(profile.physicalChemistry.content)
@@ -293,16 +347,19 @@ struct ZodiacProfileView: View {
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView(onDismiss: { showPaywall = false })
-                .environmentObject(premiumManager)
+                .environment(storeKitManager)
+                .environment(premiumManager)
         }
     }
 }
 
 #Preview {
     ZodiacProfileView(
-        profile: SampleData.geminiProfile,
+        profile: SampleData.getProfile(for: .gemini),
         onBack: { },
         onSave: { }
     )
-    .environmentObject(PremiumManager())
+    .environment(StoreKitManager())
+    .environment(PremiumManager())
+    .environment(UserManager())
 }

@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var premiumManager: PremiumManager
-    @EnvironmentObject var userManager: UserManager
+    @Environment(PremiumManager.self) var premiumManager
+    @Environment(UserManager.self) var userManager
+    @Environment(StoreKitManager.self) var storeKitManager
     @State private var selectedSign: ZodiacSign? = nil
     @State private var showingProfile = false
 
@@ -98,18 +99,20 @@ struct HomeView: View {
                     selectedSign = nil
                 }
             )
-            .environmentObject(premiumManager)
-            .environmentObject(userManager)
+            .environment(storeKitManager)
+            .environment(premiumManager)
+            .environment(userManager)
         }
         .fullScreenCover(isPresented: $showingProfile) {
             UserProfileView()
-                .environmentObject(userManager)
+                .environment(userManager)
         }
     }
 }
 
 #Preview {
     HomeView()
-        .environmentObject(PremiumManager())
-        .environmentObject(UserManager())
+        .environment(StoreKitManager())
+        .environment(PremiumManager())
+        .environment(UserManager())
 }

@@ -7,11 +7,13 @@
 
 import SwiftUI
 import PhotosUI
-import Combine
+import Observation
 
-class UserManager: ObservableObject {
-    @Published var userProfile: UserProfile
-    @Published var profileImage: UIImage?
+@Observable
+@MainActor
+final class UserManager {
+    var userProfile: UserProfile
+    var profileImage: UIImage?
 
     private let userDefaultsKey = "userProfile"
     private let imageKey = "profileImage"
@@ -27,6 +29,8 @@ class UserManager: ObservableObject {
         if let imageData = UserDefaults.standard.data(forKey: imageKey),
            let image = UIImage(data: imageData) {
             self.profileImage = image
+        } else {
+            self.profileImage = nil
         }
     }
 
@@ -112,5 +116,23 @@ class UserManager: ObservableObject {
         profileImage = nil
         UserDefaults.standard.removeObject(forKey: userDefaultsKey)
         UserDefaults.standard.removeObject(forKey: imageKey)
+    }
+
+    // MARK: - Dating Playbook
+
+    func hasPlaybookAccess(for sign: ZodiacSign) -> Bool {
+        // Premium users have full access
+        // For now, check if this specific sign was unlocked with free unlock
+        return userProfile.unlockedPlaybookSign == sign.rawValue
+    }
+
+    func canUseFreePlaybookUnlock() -> Bool {
+        return !userProfile.freePlaybookUnlockUsed
+    }
+
+    func useFreePlaybookUnlock(for sign: ZodiacSign) {
+        userProfile.freePlaybookUnlockUsed = true
+        userProfile.unlockedPlaybookSign = sign.rawValue
+        save()
     }
 }

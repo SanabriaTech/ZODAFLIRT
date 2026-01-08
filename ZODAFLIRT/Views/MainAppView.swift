@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainAppView: View {
-    @EnvironmentObject var userManager: UserManager
+    @Environment(UserManager.self) var userManager
     @State private var hasCompletedOnboarding = false
     @State private var showOnboarding = false
 
@@ -23,7 +23,7 @@ struct MainAppView: View {
                         showOnboarding = false
                     }
                 )
-                .environmentObject(userManager)
+                .environment(userManager)
             } else {
                 WelcomeView(showOnboarding: $showOnboarding)
             }
@@ -41,6 +41,6 @@ struct MainAppView: View {
 
 #Preview {
     MainAppView()
-        .environmentObject(PremiumManager())
-        .environmentObject(UserManager())
+        .environment(PremiumManager())
+        .environment(UserManager())
 }

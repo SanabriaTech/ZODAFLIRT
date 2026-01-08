@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct UserProfileView: View {
-    @EnvironmentObject var userManager: UserManager
+    @Environment(UserManager.self) var userManager
     @Environment(\.dismiss) var dismiss
 
     @State private var showingImagePicker = false
@@ -116,7 +116,7 @@ struct UserProfileView: View {
                                 Image(sign.iconName)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width: 80, height: 80)
+                                    .frame(width: 120, height: 120)
 
                                 Text(sign.name)
                                     .font(AppTheme.serifFont(size: 24))
@@ -251,5 +251,5 @@ struct SavedSignCard: View {
 
 #Preview {
     UserProfileView()
-        .environmentObject(UserManager())
+        .environment(UserManager())
 }
