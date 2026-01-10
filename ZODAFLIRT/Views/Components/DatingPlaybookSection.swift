@@ -9,11 +9,45 @@ import SwiftUI
 
 struct DatingPlaybookSection: View {
     let playbook: DatingPlaybook
+    let datingContext: DatingContext?
     let isPremium: Bool
     let hasPlaybookAccess: Bool
     let canUseFreeUnlock: Bool
     let onUseFreeUnlock: () -> Void
     let onUnlockPremium: () -> Void
+
+    private var orderedCards: [PlaybookCard] {
+        var cards = [
+            playbook.firstDate,
+            playbook.whatToSay,
+            playbook.texting,
+            playbook.whereToTake,
+            playbook.gifts
+        ]
+
+        // Reorder based on context - move relevant card to first position
+        if let context = datingContext {
+            switch context {
+            case .date:
+                // firstDate is already first, no change needed
+                break
+            case .phoneCall:
+                // Move whatToSay to first
+                if let index = cards.firstIndex(where: { $0.title.contains("What to Say") }) {
+                    let card = cards.remove(at: index)
+                    cards.insert(card, at: 0)
+                }
+            case .texting:
+                // Move texting to first
+                if let index = cards.firstIndex(where: { $0.title.contains("Texting") }) {
+                    let card = cards.remove(at: index)
+                    cards.insert(card, at: 0)
+                }
+            }
+        }
+
+        return cards
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -32,10 +66,16 @@ struct DatingPlaybookSection: View {
                 }
             }
 
-            // Subtitle
-            Text("Real-world dating guidance that works")
-                .font(AppTheme.sansFont(size: 15))
-                .foregroundColor(AppTheme.textSecondary)
+            // Subtitle with context hint
+            if let context = datingContext {
+                Text(contextSubtitle(for: context))
+                    .font(AppTheme.sansFont(size: 15))
+                    .foregroundColor(AppTheme.accent)
+            } else {
+                Text("Real-world dating guidance that works")
+                    .font(AppTheme.sansFont(size: 15))
+                    .foregroundColor(AppTheme.textSecondary)
+            }
 
             // Free unlock message
             if !isPremium && !hasPlaybookAccess && canUseFreeUnlock {
@@ -54,27 +94,15 @@ struct DatingPlaybookSection: View {
                 .cornerRadius(8)
             }
 
-            // Playbook Cards
+            // Playbook Cards (ordered by context)
             VStack(spacing: 10) {
-                DatingPlaybookCard(
-                    card: playbook.firstDate,
-                    isUnlocked: isPremium || hasPlaybookAccess
-                )
-
-                DatingPlaybookCard(
-                    card: playbook.whatToSay,
-                    isUnlocked: isPremium || hasPlaybookAccess
-                )
-
-                DatingPlaybookCard(
-                    card: playbook.whereToTake,
-                    isUnlocked: isPremium || hasPlaybookAccess
-                )
-
-                DatingPlaybookCard(
-                    card: playbook.gifts,
-                    isUnlocked: isPremium || hasPlaybookAccess
-                )
+                ForEach(Array(orderedCards.enumerated()), id: \.element.id) { index, card in
+                    DatingPlaybookCard(
+                        card: card,
+                        isUnlocked: isPremium || hasPlaybookAccess,
+                        isHighlighted: index == 0 && datingContext != nil
+                    )
+                }
             }
 
             // Unlock Buttons
@@ -117,6 +145,17 @@ struct DatingPlaybookSection: View {
         }
         .padding(.horizontal, 24)
     }
+
+    private func contextSubtitle(for context: DatingContext) -> String {
+        switch context {
+        case .date:
+            return "Start with first date tips"
+        case .phoneCall:
+            return "Start with conversation tips"
+        case .texting:
+            return "Start with texting tips"
+        }
+    }
 }
 
 #Preview {
@@ -125,6 +164,7 @@ struct DatingPlaybookSection: View {
         ScrollView {
             DatingPlaybookSection(
                 playbook: DatingPlaybookData.getPlaybook(for: .gemini),
+                datingContext: .texting,
                 isPremium: false,
                 hasPlaybookAccess: false,
                 canUseFreeUnlock: true,

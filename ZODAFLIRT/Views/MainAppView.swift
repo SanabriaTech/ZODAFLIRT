@@ -11,11 +11,23 @@ struct MainAppView: View {
     @Environment(UserManager.self) var userManager
     @State private var hasCompletedOnboarding = false
     @State private var showOnboarding = false
+    @State private var showGoalSelector = true
+    @State private var selectedContext: DatingContext? = nil
 
     var body: some View {
         Group {
             if hasCompletedOnboarding || userManager.userProfile.hasCompletedOnboarding {
-                HomeView()
+                if showGoalSelector {
+                    GoalSelectorView { context in
+                        selectedContext = context
+                        showGoalSelector = false
+                    }
+                } else {
+                    HomeView(datingContext: selectedContext, onBack: {
+                        showGoalSelector = true
+                        selectedContext = nil
+                    })
+                }
             } else if showOnboarding {
                 OnboardingFlowView(
                     hasCompletedOnboarding: $hasCompletedOnboarding,
@@ -30,6 +42,7 @@ struct MainAppView: View {
         }
         .animation(.easeInOut(duration: 0.3), value: showOnboarding)
         .animation(.easeInOut(duration: 0.3), value: hasCompletedOnboarding)
+        .animation(.easeInOut(duration: 0.3), value: showGoalSelector)
         .onAppear {
             // Check if user has already completed onboarding
             if userManager.userProfile.hasCompletedOnboarding {
@@ -41,6 +54,7 @@ struct MainAppView: View {
 
 #Preview {
     MainAppView()
+        .environment(StoreKitManager())
         .environment(PremiumManager())
         .environment(UserManager())
 }

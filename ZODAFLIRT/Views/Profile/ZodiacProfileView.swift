@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ZodiacProfileView: View {
     let profile: ZodiacProfile
+    let datingContext: DatingContext?
     let onBack: () -> Void
     let onSave: () -> Void
 
@@ -48,7 +49,7 @@ struct ZodiacProfileView: View {
                             Image(profile.sign.iconName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 200, height: 200)
+                                .frame(width: 240, height: 240)
 
                             Text(profile.sign.name)
                                 .font(AppTheme.serifFont(size: 32))
@@ -92,6 +93,7 @@ struct ZodiacProfileView: View {
                         // Dating Playbook Section
                         DatingPlaybookSection(
                             playbook: DatingPlaybookData.getPlaybook(for: profile.sign),
+                            datingContext: datingContext,
                             isPremium: premiumManager.isPremium,
                             hasPlaybookAccess: userManager.hasPlaybookAccess(for: profile.sign),
                             canUseFreeUnlock: userManager.canUseFreePlaybookUnlock(),
@@ -197,76 +199,15 @@ struct ZodiacProfileView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
 
-                        // Physical Chemistry Section with Teaser
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack {
-                                Text(profile.physicalChemistry.title)
-                                    .font(AppTheme.serifFont(size: 24))
-                                    .foregroundColor(AppTheme.textPrimary)
-
-                                Spacer()
-
-                                if profile.physicalChemistry.isPremium && !premiumManager.isPremium {
-                                    Image(systemName: "lock.fill")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(AppTheme.accent)
-                                }
+                        // Intimacy & Physical Chemistry Section
+                        IntimacySection(
+                            intimacyProfile: IntimacyData.getProfile(for: profile.sign),
+                            isPremium: premiumManager.isPremium,
+                            userIntents: userManager.userProfile.datingIntents,
+                            onUnlock: {
+                                showPaywall = true
                             }
-
-                            if profile.physicalChemistry.isPremium && !premiumManager.isPremium {
-                                // Show teaser if available
-                                if let teaser = profile.physicalChemistry.teaser {
-                                    Text(teaser)
-                                        .font(AppTheme.sansFont(size: 16))
-                                        .foregroundColor(AppTheme.textSecondary)
-                                        .lineSpacing(4)
-                                        .padding(.bottom, 8)
-                                }
-
-                                // Locked content indicator
-                                Button(action: { showPaywall = true }) {
-                                    VStack(spacing: 12) {
-                                        // Blurred placeholder lines
-                                        VStack(alignment: .leading, spacing: 8) {
-                                            RoundedRectangle(cornerRadius: 4)
-                                                .fill(AppTheme.textMuted.opacity(0.2))
-                                                .frame(height: 12)
-                                            RoundedRectangle(cornerRadius: 4)
-                                                .fill(AppTheme.textMuted.opacity(0.15))
-                                                .frame(height: 12)
-                                                .frame(maxWidth: .infinity)
-                                                .padding(.trailing, 60)
-                                            RoundedRectangle(cornerRadius: 4)
-                                                .fill(AppTheme.textMuted.opacity(0.1))
-                                                .frame(height: 12)
-                                                .frame(maxWidth: .infinity)
-                                                .padding(.trailing, 100)
-                                        }
-
-                                        Text("Unlock to reveal more...")
-                                            .font(AppTheme.sansFont(size: 14))
-                                            .foregroundColor(AppTheme.accent)
-                                            .italic()
-                                    }
-                                    .padding(16)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(AppTheme.cardBackground)
-                                    .cornerRadius(12)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .stroke(AppTheme.cardBorder, lineWidth: 1)
-                                    )
-                                }
-                            } else {
-                                Text(profile.physicalChemistry.content)
-                                    .font(AppTheme.sansFont(size: 16))
-                                    .foregroundColor(AppTheme.textSecondary)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .lineSpacing(4)
-                            }
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 24)
+                        )
 
                         // Must-Do's Section
                         VStack(alignment: .leading, spacing: 16) {
@@ -356,6 +297,7 @@ struct ZodiacProfileView: View {
 #Preview {
     ZodiacProfileView(
         profile: SampleData.getProfile(for: .gemini),
+        datingContext: .date,
         onBack: { },
         onSave: { }
     )

@@ -17,7 +17,7 @@ struct ZodiacGridTile: View {
                 Image(sign.iconName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 85, height: 85)
+                    .frame(width: 110, height: 110)
 
                 Text(sign.name)
                     .font(AppTheme.sansFontMedium(size: 14))

@@ -11,6 +11,10 @@ struct HomeView: View {
     @Environment(PremiumManager.self) var premiumManager
     @Environment(UserManager.self) var userManager
     @Environment(StoreKitManager.self) var storeKitManager
+
+    let datingContext: DatingContext?
+    let onBack: () -> Void
+
     @State private var selectedSign: ZodiacSign? = nil
     @State private var showingProfile = false
 
@@ -20,6 +24,20 @@ struct HomeView: View {
         GridItem(.flexible(), spacing: 12)
     ]
 
+    var subtitleText: String {
+        if let context = datingContext {
+            switch context {
+            case .date:
+                return "Who's the lucky one?"
+            case .phoneCall:
+                return "Who are you calling?"
+            case .texting:
+                return "Who are you texting?"
+            }
+        }
+        return "Who are you curious about?"
+    }
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -28,6 +46,14 @@ struct HomeView: View {
                 VStack(spacing: 0) {
                     // Header
                     HStack {
+                        // Back Button
+                        Button(action: onBack) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(AppTheme.textPrimary)
+                                .frame(width: 44, height: 44)
+                        }
+
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Zodaflirt")
                                 .font(AppTheme.serifFont(size: 28))
@@ -64,8 +90,24 @@ struct HomeView: View {
                     .padding(.top, 16)
                     .padding(.bottom, 8)
 
+                    // Context Badge (if context selected)
+                    if let context = datingContext {
+                        HStack(spacing: 8) {
+                            Image(systemName: context.icon)
+                                .font(.system(size: 12))
+                            Text(context.title)
+                                .font(AppTheme.sansFont(size: 13))
+                        }
+                        .foregroundColor(AppTheme.accent)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(AppTheme.accent.opacity(0.15))
+                        .cornerRadius(16)
+                        .padding(.bottom, 8)
+                    }
+
                     // Subtitle
-                    Text("Now, who are you curious about?")
+                    Text(subtitleText)
                         .font(AppTheme.sansFont(size: 15))
                         .foregroundColor(AppTheme.textSecondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -93,6 +135,7 @@ struct HomeView: View {
 
             ZodiacProfileView(
                 profile: profile,
+                datingContext: datingContext,
                 onBack: { selectedSign = nil },
                 onSave: {
                     userManager.toggleSavedSign(sign)
@@ -105,13 +148,15 @@ struct HomeView: View {
         }
         .fullScreenCover(isPresented: $showingProfile) {
             UserProfileView()
+                .environment(storeKitManager)
+                .environment(premiumManager)
                 .environment(userManager)
         }
     }
 }
 
 #Preview {
-    HomeView()
+    HomeView(datingContext: .date, onBack: { })
         .environment(StoreKitManager())
         .environment(PremiumManager())
         .environment(UserManager())

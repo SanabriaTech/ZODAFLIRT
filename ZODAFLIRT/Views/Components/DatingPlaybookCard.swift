@@ -10,6 +10,7 @@ import SwiftUI
 struct DatingPlaybookCard: View {
     let card: PlaybookCard
     let isUnlocked: Bool
+    var isHighlighted: Bool = false
     @State private var isExpanded: Bool = false
 
     var body: some View {
@@ -70,7 +71,7 @@ struct DatingPlaybookCard: View {
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(isUnlocked ? AppTheme.cardBorder : AppTheme.cardBorder.opacity(0.5), lineWidth: 1)
+                .stroke(isHighlighted && isUnlocked ? AppTheme.accent : (isUnlocked ? AppTheme.cardBorder : AppTheme.cardBorder.opacity(0.5)), lineWidth: isHighlighted && isUnlocked ? 2 : 1)
         )
     }
 }
@@ -81,11 +82,13 @@ struct DatingPlaybookCard: View {
         VStack(spacing: 12) {
             DatingPlaybookCard(
                 card: PlaybookCard(title: "First Date With a Gemini", content: ["Keep it fun", "Be spontaneous"]),
-                isUnlocked: true
+                isUnlocked: true,
+                isHighlighted: true
             )
             DatingPlaybookCard(
                 card: PlaybookCard(title: "What to Say", content: ["Be witty", "Ask questions"]),
-                isUnlocked: false
+                isUnlocked: false,
+                isHighlighted: false
             )
         }
         .padding()

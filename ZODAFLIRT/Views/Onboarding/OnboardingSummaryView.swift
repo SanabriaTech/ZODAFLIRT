@@ -109,14 +109,14 @@ struct OnboardingSummaryView: View {
 
                                 // Best matches preview
                                 HStack(spacing: 12) {
-                                    ForEach(ZodiacCompatibility.getBestMatches(for: sign).prefix(3)) { match in
+                                    ForEach(Array(ZodiacCompatibility.getBestMatches(for: sign).prefix(3))) { match in
                                         VStack(spacing: 6) {
-                                            Image(match.iconName)
+                                            Image(match.sign.iconName)
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 36, height: 36)
 
-                                            Text(match.name)
+                                            Text(match.sign.name)
                                                 .font(AppTheme.sansFont(size: 11))
                                                 .foregroundColor(AppTheme.textSecondary)
                                         }

@@ -135,4 +135,21 @@ final class UserManager {
         userProfile.unlockedPlaybookSign = sign.rawValue
         save()
     }
+
+    // MARK: - Dating Context
+
+    func setDatingContext(_ context: DatingContext?) {
+        userProfile.currentDatingContext = context?.rawValue
+        save()
+    }
+
+    func getDatingContext() -> DatingContext? {
+        guard let rawValue = userProfile.currentDatingContext else { return nil }
+        return DatingContext(rawValue: rawValue)
+    }
+
+    func clearDatingContext() {
+        userProfile.currentDatingContext = nil
+        save()
+    }
 }

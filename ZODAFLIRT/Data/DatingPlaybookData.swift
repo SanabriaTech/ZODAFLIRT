@@ -69,6 +69,16 @@ struct DatingPlaybookData {
                 "Spontaneous surprises beat planned gifts.",
                 "Avoid: overly sentimental items early on."
             ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting an Aries",
+            content: [
+                "Keep it short and punchy—Aries hates long, drawn-out messages.",
+                "Be direct. Say what you mean without playing games.",
+                "Challenge them: \"Bet you can't guess what I'm doing right now.\"",
+                "Don't double-text or seem desperate. Give them space to chase.",
+                "Use texts to make plans, not have full conversations."
+            ]
         )
     )
 
@@ -114,6 +124,16 @@ struct DatingPlaybookData {
                 "Gourmet food items: specialty chocolate, aged cheese, fine wine.",
                 "Something for their home: a beautiful candle, a cozy throw.",
                 "Avoid: cheap or impersonal gifts."
+            ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Taurus",
+            content: [
+                "Be consistent—text at similar times, keep a steady rhythm.",
+                "Send food pics or restaurant recommendations they'd enjoy.",
+                "Don't rush responses. Taurus takes their time and expects the same.",
+                "Use warm, genuine language. No games or hot-cold behavior.",
+                "Plan dates via text—they like knowing what's coming next."
             ]
         )
     )
@@ -161,6 +181,16 @@ struct DatingPlaybookData {
                 "Tickets to something unexpected—a lecture, a show, an event.",
                 "Avoid: overly romantic gestures too early."
             ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Gemini",
+            content: [
+                "Keep it witty and playful—Gemini loves clever banter.",
+                "Send memes, links, random thoughts. Variety keeps them engaged.",
+                "Don't over-explain. Leave some mystery in your messages.",
+                "Be unpredictable with timing—don't always reply instantly.",
+                "Ask questions that spark interesting conversations."
+            ]
         )
     )
 
@@ -206,6 +236,16 @@ struct DatingPlaybookData {
                 "Homemade anything—cookies, a playlist, a handwritten note.",
                 "Comfort items: a soft blanket, a scented candle, cozy socks.",
                 "Avoid: generic gifts that show no thought."
+            ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Cancer",
+            content: [
+                "Good morning and goodnight texts go a long way.",
+                "Share personal things—Cancer loves emotional connection via text.",
+                "Remember details from past conversations and reference them.",
+                "Be responsive. Leaving them on read feels like rejection.",
+                "Use voice notes occasionally—they appreciate hearing your voice."
             ]
         )
     )
@@ -253,6 +293,16 @@ struct DatingPlaybookData {
                 "Anything gold or bold.",
                 "Avoid: practical gifts or anything that feels ordinary."
             ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Leo",
+            content: [
+                "Compliment them—Leo loves praise, even via text.",
+                "Hype them up about their achievements and plans.",
+                "Send photos of things that reminded you of them.",
+                "Don't be dry. Bring energy and enthusiasm to your messages.",
+                "Let them know when you're thinking about them."
+            ]
         )
     )
 
@@ -298,6 +348,16 @@ struct DatingPlaybookData {
                 "Books on topics they care about.",
                 "Wellness gifts: quality skincare, herbal tea sets.",
                 "Avoid: clutter, overly sentimental items, or anything cheap."
+            ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Virgo",
+            content: [
+                "Use proper grammar and spelling—Virgo notices everything.",
+                "Be clear and organized in your messages. No rambling.",
+                "Ask thoughtful questions about their work or projects.",
+                "Don't bombard them with texts. Quality over quantity.",
+                "Follow through on anything you mention in texts."
             ]
         )
     )
@@ -345,6 +405,16 @@ struct DatingPlaybookData {
                 "Anything aesthetically pleasing and well-wrapped.",
                 "Avoid: practical-only gifts or anything ugly."
             ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Libra",
+            content: [
+                "Be flirty and romantic—Libra loves sweet messages.",
+                "Ask for their opinions on things. They love being consulted.",
+                "Send beautiful photos—sunsets, places, things you think they'd like.",
+                "Keep the tone light and positive. Avoid conflict via text.",
+                "Balance the conversation—don't dominate or go silent."
+            ]
         )
     )
 
@@ -390,6 +460,16 @@ struct DatingPlaybookData {
                 "Dark, sophisticated aesthetics: black, deep red, luxe textures.",
                 "Something rare or hard to find.",
                 "Avoid: generic gifts or anything too public."
+            ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Scorpio",
+            content: [
+                "Be real. Scorpio can sense fakeness even through text.",
+                "Don't overshare too fast—let mystery build.",
+                "Respond thoughtfully, not instantly. They value depth over speed.",
+                "Avoid surface-level chat. Ask questions that go deeper.",
+                "Late-night texts work well—Scorpio comes alive at night."
             ]
         )
     )
@@ -437,6 +517,16 @@ struct DatingPlaybookData {
                 "Something from another country or culture.",
                 "Avoid: anything that ties them down or feels too serious."
             ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Sagittarius",
+            content: [
+                "Keep it fun and light—no heavy conversations via text.",
+                "Send spontaneous invites: \"I'm going to X, come with?\"",
+                "Share funny memes, travel pics, or random discoveries.",
+                "Don't expect instant replies—they're probably busy exploring.",
+                "Use texting to make plans, not to have deep talks."
+            ]
         )
     )
 
@@ -482,6 +572,16 @@ struct DatingPlaybookData {
                 "Fine spirits: aged whiskey, quality wine.",
                 "Something that shows you invested thought and effort.",
                 "Avoid: cheap, trendy, or impractical gifts."
+            ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Capricorn",
+            content: [
+                "Be concise and purposeful—don't waste their time with fluff.",
+                "Text during reasonable hours. Late-night texts seem chaotic.",
+                "Share wins and goals—they respect ambition.",
+                "Don't expect long conversations. Capricorn prefers in-person.",
+                "Use texts to confirm plans, not to build the relationship."
             ]
         )
     )
@@ -529,6 +629,16 @@ struct DatingPlaybookData {
                 "Books on science, future trends, or social change.",
                 "Avoid: conventional romantic gifts—they'll feel awkward."
             ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting an Aquarius",
+            content: [
+                "Send interesting articles, ideas, or random thoughts.",
+                "Don't expect consistent texting patterns—they're unpredictable.",
+                "Avoid clingy or emotional texts. Keep it cerebral.",
+                "Memes and weird internet finds work great.",
+                "Give them space. Don't text every day expecting replies."
+            ]
         )
     )
 
@@ -574,6 +684,16 @@ struct DatingPlaybookData {
                 "Music-related: vinyl, concert tickets, instruments.",
                 "Spa or self-care gifts.",
                 "Avoid: overly practical or unromantic gifts."
+            ]
+        ),
+        texting: PlaybookCard(
+            title: "Texting a Pisces",
+            content: [
+                "Be romantic and expressive—Pisces loves sweet messages.",
+                "Share songs, poems, or things that made you feel something.",
+                "Check in on how they're feeling. They appreciate emotional awareness.",
+                "Voice notes feel more personal than plain text.",
+                "Don't be harsh or overly logical in your messages."
             ]
         )
     )

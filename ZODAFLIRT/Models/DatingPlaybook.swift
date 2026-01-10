@@ -14,14 +14,16 @@ struct DatingPlaybook: Identifiable {
     let whatToSay: PlaybookCard
     let whereToTake: PlaybookCard
     let gifts: PlaybookCard
+    let texting: PlaybookCard
 
-    init(sign: ZodiacSign, firstDate: PlaybookCard, whatToSay: PlaybookCard, whereToTake: PlaybookCard, gifts: PlaybookCard) {
+    init(sign: ZodiacSign, firstDate: PlaybookCard, whatToSay: PlaybookCard, whereToTake: PlaybookCard, gifts: PlaybookCard, texting: PlaybookCard) {
         self.id = sign.rawValue
         self.sign = sign
         self.firstDate = firstDate
         self.whatToSay = whatToSay
         self.whereToTake = whereToTake
         self.gifts = gifts
+        self.texting = texting
     }
 }
 

@@ -9,224 +9,301 @@ import Foundation
 
 struct ZodiacCompatibility {
 
-    // MARK: - Compatibility Levels
+    // MARK: - Get Best Matches with Details
 
-    enum CompatibilityLevel: Int {
-        case soulmate = 5      // Exceptional match
-        case highlyCompatible = 4
-        case compatible = 3
-        case neutral = 2
-        case challenging = 1
+    static func getBestMatches(for sign: ZodiacSign) -> [CompatibilityMatch] {
+        switch sign {
+        case .aries:
+            return [
+                CompatibilityMatch(
+                    sign: .leo,
+                    rank: 1,
+                    headline: "Fire meets fire",
+                    explanation: "Leo matches your energy and ambition. Together you're a power couple—bold, passionate, and always pushing each other forward. They admire your drive; you love their confidence."
+                ),
+                CompatibilityMatch(
+                    sign: .sagittarius,
+                    rank: 2,
+                    headline: "Adventure partners",
+                    explanation: "Sagittarius keeps up with your spontaneity and never tries to hold you back. You both crave excitement, freedom, and a partner who says 'yes' to life."
+                ),
+                CompatibilityMatch(
+                    sign: .gemini,
+                    rank: 3,
+                    headline: "Never a dull moment",
+                    explanation: "Gemini's quick wit and playfulness keep you on your toes. They challenge you mentally and match your restless energy with their own."
+                )
+            ]
 
-        var description: String {
-            switch self {
-            case .soulmate: return "Soulmate Connection"
-            case .highlyCompatible: return "Highly Compatible"
-            case .compatible: return "Compatible"
-            case .neutral: return "Neutral"
-            case .challenging: return "Challenging"
-            }
+        case .taurus:
+            return [
+                CompatibilityMatch(
+                    sign: .cancer,
+                    rank: 1,
+                    headline: "Built for comfort",
+                    explanation: "Cancer understands your need for security and emotional depth. Together you create a home that feels like a sanctuary—warm, stable, and deeply nurturing."
+                ),
+                CompatibilityMatch(
+                    sign: .virgo,
+                    rank: 2,
+                    headline: "Quiet understanding",
+                    explanation: "Virgo shares your appreciation for quality and consistency. You both show love through actions, not just words, creating a relationship built on mutual respect."
+                ),
+                CompatibilityMatch(
+                    sign: .capricorn,
+                    rank: 3,
+                    headline: "Long-term vision",
+                    explanation: "Capricorn matches your ambition and patience. You're both building something real—no games, no drama, just steady progress toward shared goals."
+                )
+            ]
+
+        case .gemini:
+            return [
+                CompatibilityMatch(
+                    sign: .libra,
+                    rank: 1,
+                    headline: "Intellectual equals",
+                    explanation: "Libra keeps the conversation flowing and the romance alive. You both thrive on mental stimulation, social connection, and keeping things light and beautiful."
+                ),
+                CompatibilityMatch(
+                    sign: .aquarius,
+                    rank: 2,
+                    headline: "Unconventional match",
+                    explanation: "Aquarius gets your need for freedom and mental space. Together you explore ideas others find strange and never bore each other."
+                ),
+                CompatibilityMatch(
+                    sign: .aries,
+                    rank: 3,
+                    headline: "Spark and speed",
+                    explanation: "Aries brings the fire you sometimes lack. Their decisiveness balances your indecision, and their boldness pushes you out of your head and into action."
+                )
+            ]
+
+        case .cancer:
+            return [
+                CompatibilityMatch(
+                    sign: .scorpio,
+                    rank: 1,
+                    headline: "Soul-deep bond",
+                    explanation: "Scorpio protects your sensitive heart like no one else. They understand your emotional depths and offer the loyalty and intensity you crave."
+                ),
+                CompatibilityMatch(
+                    sign: .pisces,
+                    rank: 2,
+                    headline: "Emotional fluency",
+                    explanation: "Pisces speaks your emotional language fluently. Together you create a relationship that feels like coming home—intuitive, tender, and deeply connected."
+                ),
+                CompatibilityMatch(
+                    sign: .taurus,
+                    rank: 3,
+                    headline: "Steady devotion",
+                    explanation: "Taurus offers the stability and consistency your heart needs. They show up, stay present, and build the secure foundation you've always wanted."
+                )
+            ]
+
+        case .leo:
+            return [
+                CompatibilityMatch(
+                    sign: .aries,
+                    rank: 1,
+                    headline: "Mutual admiration",
+                    explanation: "Aries sees your greatness and isn't intimidated by it. You inspire each other to be bolder, braver, and more unapologetically yourselves."
+                ),
+                CompatibilityMatch(
+                    sign: .sagittarius,
+                    rank: 2,
+                    headline: "Grand adventures",
+                    explanation: "Sagittarius shares your love of life and expansive vision. Together you dream big and actually make it happen—with plenty of fun along the way."
+                ),
+                CompatibilityMatch(
+                    sign: .libra,
+                    rank: 3,
+                    headline: "Beauty and warmth",
+                    explanation: "Libra appreciates your flair and matches it with their own elegance. You both value romance, aesthetics, and being treated like royalty."
+                )
+            ]
+
+        case .virgo:
+            return [
+                CompatibilityMatch(
+                    sign: .taurus,
+                    rank: 1,
+                    headline: "Grounded together",
+                    explanation: "Taurus shares your practical approach to love. You both value quality, consistency, and showing love through thoughtful actions rather than grand gestures."
+                ),
+                CompatibilityMatch(
+                    sign: .capricorn,
+                    rank: 2,
+                    headline: "Shared standards",
+                    explanation: "Capricorn respects your high standards and matches them. Together you build something real—a relationship based on mutual respect and shared ambition."
+                ),
+                CompatibilityMatch(
+                    sign: .cancer,
+                    rank: 3,
+                    headline: "Nurturing balance",
+                    explanation: "Cancer softens your critical edge with genuine warmth. They appreciate your helpfulness while teaching you to receive care, not just give it."
+                )
+            ]
+
+        case .libra:
+            return [
+                CompatibilityMatch(
+                    sign: .gemini,
+                    rank: 1,
+                    headline: "Perfect conversation",
+                    explanation: "Gemini stimulates your mind and keeps romance playful. You never run out of things to discuss, debate, or discover together."
+                ),
+                CompatibilityMatch(
+                    sign: .leo,
+                    rank: 2,
+                    headline: "Glamour and heart",
+                    explanation: "Leo brings the warmth and confidence you admire. Together you create a beautiful life filled with romance, appreciation, and mutual adoration."
+                ),
+                CompatibilityMatch(
+                    sign: .aquarius,
+                    rank: 3,
+                    headline: "Idealistic partners",
+                    explanation: "Aquarius shares your vision for a better world. You connect on ideas, values, and a shared belief that relationships should elevate both people."
+                )
+            ]
+
+        case .scorpio:
+            return [
+                CompatibilityMatch(
+                    sign: .cancer,
+                    rank: 1,
+                    headline: "Unspoken understanding",
+                    explanation: "Cancer meets your emotional intensity without flinching. They offer the loyalty and depth you demand, creating a bond that feels unbreakable."
+                ),
+                CompatibilityMatch(
+                    sign: .pisces,
+                    rank: 2,
+                    headline: "Mystical connection",
+                    explanation: "Pisces matches your depth and adds a dreamy softness. Together you explore emotional and spiritual territories others never reach."
+                ),
+                CompatibilityMatch(
+                    sign: .capricorn,
+                    rank: 3,
+                    headline: "Power and ambition",
+                    explanation: "Capricorn respects your intensity and matches it with their own quiet power. You both play the long game and value loyalty above all."
+                )
+            ]
+
+        case .sagittarius:
+            return [
+                CompatibilityMatch(
+                    sign: .aries,
+                    rank: 1,
+                    headline: "Unstoppable energy",
+                    explanation: "Aries matches your fire and never asks you to slow down. Together you're an adventure-seeking duo who makes life feel like one big exploration."
+                ),
+                CompatibilityMatch(
+                    sign: .leo,
+                    rank: 2,
+                    headline: "Optimism amplified",
+                    explanation: "Leo shares your positive outlook and love of life. You inspire each other to dream bigger and celebrate every victory along the way."
+                ),
+                CompatibilityMatch(
+                    sign: .aquarius,
+                    rank: 3,
+                    headline: "Freedom-loving pair",
+                    explanation: "Aquarius gives you the space you need while keeping things intellectually stimulating. Neither of you tries to cage the other."
+                )
+            ]
+
+        case .capricorn:
+            return [
+                CompatibilityMatch(
+                    sign: .taurus,
+                    rank: 1,
+                    headline: "Built to last",
+                    explanation: "Taurus understands your long-term vision and patient approach. Together you build something substantial—a relationship with real foundations."
+                ),
+                CompatibilityMatch(
+                    sign: .virgo,
+                    rank: 2,
+                    headline: "Mutual respect",
+                    explanation: "Virgo appreciates your ambition and matches it with their own dedication. You both value competence, reliability, and showing up consistently."
+                ),
+                CompatibilityMatch(
+                    sign: .scorpio,
+                    rank: 3,
+                    headline: "Hidden depths",
+                    explanation: "Scorpio sees past your reserved exterior to the passion underneath. They match your loyalty and understand that trust is earned, not given."
+                )
+            ]
+
+        case .aquarius:
+            return [
+                CompatibilityMatch(
+                    sign: .gemini,
+                    rank: 1,
+                    headline: "Mental fireworks",
+                    explanation: "Gemini keeps your mind engaged and never tries to pin you down. You share ideas, explore possibilities, and give each other room to breathe."
+                ),
+                CompatibilityMatch(
+                    sign: .libra,
+                    rank: 2,
+                    headline: "Harmonious ideals",
+                    explanation: "Libra shares your interest in ideas and social progress. Together you envision a better future and actually work toward making it real."
+                ),
+                CompatibilityMatch(
+                    sign: .sagittarius,
+                    rank: 3,
+                    headline: "Independent spirits",
+                    explanation: "Sagittarius respects your need for freedom and matches it with their own. You're two independent people who choose to be together."
+                )
+            ]
+
+        case .pisces:
+            return [
+                CompatibilityMatch(
+                    sign: .cancer,
+                    rank: 1,
+                    headline: "Emotional home",
+                    explanation: "Cancer creates the safe emotional harbor you've always needed. They understand your sensitivity and protect it without making you feel weak."
+                ),
+                CompatibilityMatch(
+                    sign: .scorpio,
+                    rank: 2,
+                    headline: "Transformative love",
+                    explanation: "Scorpio matches your emotional depth and adds protective strength. Together you create a bond that feels fated—intense, healing, and profound."
+                ),
+                CompatibilityMatch(
+                    sign: .taurus,
+                    rank: 3,
+                    headline: "Dreams meet reality",
+                    explanation: "Taurus grounds your dreams without crushing them. They offer the stability you need while appreciating your creative, romantic spirit."
+                )
+            ]
         }
     }
 
-    // MARK: - Get Compatibility Score
+    // MARK: - Compatibility Level (existing functionality)
+
+    enum CompatibilityLevel: String {
+        case soulmate = "Soulmate"
+        case highlyCompatible = "Highly Compatible"
+        case compatible = "Compatible"
+        case neutral = "Neutral"
+        case challenging = "Challenging"
+    }
 
     static func getCompatibility(between sign1: ZodiacSign, and sign2: ZodiacSign) -> CompatibilityLevel {
-        let pair = Set([sign1, sign2])
-
-        // Soulmate matches (5)
-        let soulmateMatches: [Set<ZodiacSign>] = [
-            [.aries, .leo],
-            [.taurus, .cancer],
-            [.gemini, .libra],
-            [.cancer, .scorpio],
-            [.leo, .sagittarius],
-            [.virgo, .taurus],
-            [.libra, .gemini],
-            [.scorpio, .pisces],
-            [.sagittarius, .aries],
-            [.capricorn, .virgo],
-            [.aquarius, .gemini],
-            [.pisces, .cancer]
-        ]
-
-        if soulmateMatches.contains(pair) { return .soulmate }
-
-        // Highly compatible matches (4)
-        let highMatches: [Set<ZodiacSign>] = [
-            [.aries, .sagittarius],
-            [.aries, .aquarius],
-            [.taurus, .virgo],
-            [.taurus, .pisces],
-            [.gemini, .aquarius],
-            [.gemini, .aries],
-            [.cancer, .pisces],
-            [.cancer, .taurus],
-            [.leo, .aries],
-            [.leo, .libra],
-            [.virgo, .capricorn],
-            [.virgo, .cancer],
-            [.libra, .leo],
-            [.libra, .sagittarius],
-            [.scorpio, .cancer],
-            [.scorpio, .virgo],
-            [.sagittarius, .aquarius],
-            [.sagittarius, .libra],
-            [.capricorn, .taurus],
-            [.capricorn, .scorpio],
-            [.aquarius, .sagittarius],
-            [.aquarius, .libra],
-            [.pisces, .scorpio],
-            [.pisces, .taurus]
-        ]
-
-        if highMatches.contains(pair) { return .highlyCompatible }
-
-        // Same sign - compatible with self
-        if sign1 == sign2 { return .compatible }
-
-        // Same element - generally compatible
-        if sign1.element == sign2.element { return .compatible }
-
-        // Complementary elements
-        let complementary: [(String, String)] = [
-            ("Fire", "Air"),
-            ("Earth", "Water")
-        ]
-
-        for (elem1, elem2) in complementary {
-            if (sign1.element == elem1 && sign2.element == elem2) ||
-               (sign1.element == elem2 && sign2.element == elem1) {
-                return .compatible
-            }
+        let matches = getBestMatches(for: sign1)
+        if matches.first?.sign == sign2 {
+            return .soulmate
+        } else if matches.dropFirst().first?.sign == sign2 {
+            return .highlyCompatible
+        } else if matches.last?.sign == sign2 {
+            return .compatible
         }
-
-        // Challenging combinations
-        let challengingMatches: [Set<ZodiacSign>] = [
-            [.aries, .cancer],
-            [.aries, .capricorn],
-            [.taurus, .leo],
-            [.taurus, .aquarius],
-            [.gemini, .virgo],
-            [.gemini, .pisces],
-            [.cancer, .libra],
-            [.cancer, .aries],
-            [.leo, .scorpio],
-            [.leo, .taurus],
-            [.virgo, .sagittarius],
-            [.virgo, .gemini],
-            [.libra, .capricorn],
-            [.libra, .cancer],
-            [.scorpio, .aquarius],
-            [.scorpio, .leo],
-            [.sagittarius, .pisces],
-            [.sagittarius, .virgo],
-            [.capricorn, .aries],
-            [.capricorn, .libra],
-            [.aquarius, .taurus],
-            [.aquarius, .scorpio],
-            [.pisces, .gemini],
-            [.pisces, .sagittarius]
-        ]
-
-        if challengingMatches.contains(pair) { return .challenging }
-
         return .neutral
     }
 
-    // MARK: - Get Best Matches for a Sign
-
-    static func getBestMatches(for sign: ZodiacSign) -> [ZodiacSign] {
-        var matches: [(sign: ZodiacSign, score: Int)] = []
-
-        for otherSign in ZodiacSign.allCases where otherSign != sign {
-            let compatibility = getCompatibility(between: sign, and: otherSign)
-            matches.append((otherSign, compatibility.rawValue))
-        }
-
-        // Sort by score descending and return top matches
-        return matches
-            .sorted { $0.score > $1.score }
-            .prefix(3)
-            .map { $0.sign }
-    }
-
-    // MARK: - Get Compatibility Teaser
-
     static func getCompatibilityTeaser(for sign: ZodiacSign) -> String {
-        let bestMatches = getBestMatches(for: sign)
-        guard let topMatch = bestMatches.first else {
-            return "Your romantic journey is full of possibilities..."
-        }
-
-        let teasers: [ZodiacSign: [ZodiacSign: String]] = [
-            .aries: [
-                .leo: "You share an electric connection with Leo energy—both of you burn bright and love fiercely.",
-                .sagittarius: "Sagittarius matches your adventurous spirit. Together, you're unstoppable.",
-                .libra: "Libra's charm balances your fire. Opposites attract for a reason."
-            ],
-            .taurus: [
-                .cancer: "Cancer's emotional depth meets your sensual nature—a match built on trust.",
-                .virgo: "Virgo understands your need for stability. Together, you build something real.",
-                .pisces: "Pisces brings the romance you secretly crave. Pure magic."
-            ],
-            .gemini: [
-                .libra: "Libra matches your wit and social grace. Conversations that never end.",
-                .aquarius: "Aquarius gets your unconventional mind. Freedom-loving kindred spirits.",
-                .aries: "Aries brings excitement that keeps you guessing. Never a dull moment."
-            ],
-            .cancer: [
-                .scorpio: "Scorpio's intensity meets your emotional depth. A bond that transcends words.",
-                .pisces: "Pisces understands your unspoken feelings. Soul-level connection.",
-                .taurus: "Taurus offers the security you crave. Home is wherever they are."
-            ],
-            .leo: [
-                .aries: "Aries matches your passion and drive. Two flames that burn brighter together.",
-                .sagittarius: "Sagittarius shares your love of adventure and celebration. Life's a party.",
-                .libra: "Libra appreciates your shine. They'll always make you feel like royalty."
-            ],
-            .virgo: [
-                .taurus: "Taurus shares your appreciation for quality and consistency. Quietly perfect.",
-                .capricorn: "Capricorn respects your work ethic. You build empires together.",
-                .cancer: "Cancer sees the softness beneath your precision. Deeply nurturing."
-            ],
-            .libra: [
-                .gemini: "Gemini matches your intellectual curiosity. Endless conversations await.",
-                .leo: "Leo's warmth draws you in. They make you feel endlessly adored.",
-                .sagittarius: "Sagittarius expands your world. Adventure and harmony combined."
-            ],
-            .scorpio: [
-                .pisces: "Pisces meets you in the depths. A connection that feels fated.",
-                .cancer: "Cancer offers the emotional safety you need to fully open up.",
-                .virgo: "Virgo's loyalty and attention to detail earn your trust slowly but completely."
-            ],
-            .sagittarius: [
-                .aries: "Aries matches your fire and fearlessness. Partners in adventure.",
-                .leo: "Leo brings the drama and passion you love. Life becomes a grand story.",
-                .aquarius: "Aquarius shares your vision for something bigger. Freedom together."
-            ],
-            .capricorn: [
-                .virgo: "Virgo understands your ambition without judging it. Practical soulmates.",
-                .taurus: "Taurus shares your values. You build something lasting together.",
-                .scorpio: "Scorpio's intensity intrigues you. Beneath the surface, deep respect."
-            ],
-            .aquarius: [
-                .gemini: "Gemini speaks your language. Intellectual connection that feels rare.",
-                .sagittarius: "Sagittarius shares your need for freedom and exploration.",
-                .libra: "Libra brings social grace and balance to your unconventional ways."
-            ],
-            .pisces: [
-                .scorpio: "Scorpio protects your sensitive heart. A bond others don't understand.",
-                .cancer: "Cancer creates the emotional home you've always dreamed of.",
-                .taurus: "Taurus grounds your dreams in reality—without crushing them."
-            ]
-        ]
-
-        if let signTeasers = teasers[sign], let teaser = signTeasers[topMatch] {
-            return teaser
-        }
-
-        // Fallback generic teaser
-        return "You often connect strongly with \(topMatch.name) energy—there's natural chemistry worth exploring."
+        let matches = getBestMatches(for: sign)
+        guard let topMatch = matches.first else { return "" }
+        return "Your #1 match: \(topMatch.sign.name) — \(topMatch.headline.lowercased())."
     }
 }
