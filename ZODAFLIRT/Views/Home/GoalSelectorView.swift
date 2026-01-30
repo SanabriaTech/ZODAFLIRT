@@ -34,21 +34,30 @@ struct GoalSelectorView: View {
                     .padding(.top, 16)
 
                     Spacer()
+                        .frame(maxHeight: 60)
 
                     // Header
-                    VStack(spacing: 12) {
-                        Text("What's your goal\nright now?")
-                            .font(AppTheme.serifFont(size: 34))
+                    VStack(spacing: 20) {
+                        // Primary title - H1
+                        Text("Prepare for dates\nwith confidence")
+                            .font(AppTheme.serifFont(size: 36))
                             .foregroundColor(AppTheme.textPrimary)
                             .multilineTextAlignment(.center)
 
-                        Text("Get guidance that fits the moment.")
-                            .font(AppTheme.sansFont(size: 15))
-                            .foregroundColor(AppTheme.textMuted)
+                        // Secondary heading
+                        VStack(spacing: 8) {
+                            Text("What's your goal right now?")
+                                .font(AppTheme.sansFontMedium(size: 20))
+                                .foregroundColor(AppTheme.textSecondary)
+
+                            Text("Get personalized dating guidance.")
+                                .font(AppTheme.sansFont(size: 15))
+                                .foregroundColor(AppTheme.textMuted)
+                        }
                     }
                     .padding(.horizontal, 24)
 
-                    Spacer().frame(height: 48)
+                    Spacer().frame(height: 40)
 
                     // Goal Cards
                     VStack(spacing: 16) {

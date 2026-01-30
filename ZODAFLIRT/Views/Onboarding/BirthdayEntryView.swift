@@ -46,10 +46,16 @@ struct BirthdayEntryView: View {
                                 .foregroundColor(AppTheme.textPrimary)
                                 .multilineTextAlignment(.center)
 
-                            Text("Your birthday reveals your cosmic blueprint")
+                            Text("Your birthday helps us understand your personality style.")
                                 .font(AppTheme.sansFont(size: 16))
                                 .foregroundColor(AppTheme.textSecondary)
                                 .multilineTextAlignment(.center)
+
+                            Text("We use personality traits to tailor dating advice and communication tips.")
+                                .font(AppTheme.sansFont(size: 14))
+                                .foregroundColor(AppTheme.textMuted)
+                                .multilineTextAlignment(.center)
+                                .padding(.top, 4)
                         }
                         .padding(.horizontal, 24)
 
@@ -74,11 +80,15 @@ struct BirthdayEntryView: View {
                     Button(action: onContinue) {
                         Text("Reveal My Sign")
                             .font(AppTheme.sansFontMedium(size: 17))
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
-                            .background(AppTheme.accent)
+                            .background(AppTheme.buttonPrimaryBackground)
                             .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
+                            )
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 40)

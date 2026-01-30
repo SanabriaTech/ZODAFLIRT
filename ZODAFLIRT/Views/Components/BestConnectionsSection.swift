@@ -52,14 +52,14 @@ struct BestConnectionsSection: View {
                         Text("Unlock Compatibility Insights")
                             .font(AppTheme.sansFontMedium(size: 15))
                     }
-                    .foregroundColor(AppTheme.accent)
+                    .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
-                    .background(AppTheme.cardBackground)
+                    .background(AppTheme.buttonPrimaryBackground)
                     .cornerRadius(12)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(AppTheme.accent, lineWidth: 1)
+                            .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
                     )
                 }
             }

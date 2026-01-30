@@ -66,7 +66,7 @@ struct ZodiacRevealView: View {
 
                         // Sign Name and Date Range
                         VStack(spacing: 8) {
-                            Text("You are a")
+                            Text("Your personality type is")
                                 .font(AppTheme.sansFont(size: 16))
                                 .foregroundColor(AppTheme.textSecondary)
                                 .opacity(showName ? 1 : 0)
@@ -103,14 +103,14 @@ struct ZodiacRevealView: View {
                     Button(action: onContinue) {
                         Text("Continue")
                             .font(AppTheme.sansFontMedium(size: 17))
-                            .foregroundColor(AppTheme.textPrimary)
+                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
-                            .background(AppTheme.cardBackground)
+                            .background(AppTheme.buttonPrimaryBackground)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(AppTheme.accent, lineWidth: 1)
+                                    .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
                             )
                     }
                     .padding(.horizontal, 24)

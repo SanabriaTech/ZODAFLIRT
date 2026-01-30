@@ -25,7 +25,7 @@ struct BestConnectionCard: View {
 
                     Text("#\(match.rank)")
                         .font(AppTheme.sansFontMedium(size: 12))
-                        .foregroundColor(.black)
+                        .foregroundColor(AppTheme.background)
                 }
 
                 // Zodiac Icon

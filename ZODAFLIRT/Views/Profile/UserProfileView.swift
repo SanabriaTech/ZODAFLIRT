@@ -78,7 +78,7 @@ struct UserProfileView: View {
                                     .overlay(
                                         Image(systemName: "camera.fill")
                                             .font(.system(size: 14))
-                                            .foregroundColor(.black)
+                                            .foregroundColor(AppTheme.background)
                                     )
                                     .offset(x: 42, y: 42)
                             }
@@ -157,7 +157,7 @@ struct UserProfileView: View {
 
                             // Personality Summary
                             VStack(alignment: .leading, spacing: 12) {
-                                Text("Your Personality")
+                                Text("Your Personality Snapshot")
                                     .font(AppTheme.serifFont(size: 20))
                                     .foregroundColor(AppTheme.textPrimary)
 
@@ -243,11 +243,15 @@ struct UserProfileView: View {
                                     Button(action: { showPaywall = true }) {
                                         Text("Upgrade")
                                             .font(AppTheme.sansFontMedium(size: 14))
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.white)
                                             .padding(.horizontal, 16)
                                             .padding(.vertical, 8)
-                                            .background(AppTheme.accent)
+                                            .background(AppTheme.buttonPrimaryBackground)
                                             .cornerRadius(8)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 8)
+                                                    .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
+                                            )
                                     }
                                 }
                             }
@@ -262,7 +266,24 @@ struct UserProfileView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
 
-                        Spacer().frame(height: 40)
+                        // App Disclaimer
+                        VStack(spacing: 8) {
+                            Divider()
+                                .background(AppTheme.cardBorder)
+
+                            Text("About This App")
+                                .font(AppTheme.sansFontMedium(size: 14))
+                                .foregroundColor(AppTheme.textSecondary)
+
+                            Text("This app uses personality frameworks inspired by astrology to provide dating and relationship guidance. It does not provide horoscopes, predictions, or fortune-telling.")
+                                .font(AppTheme.sansFont(size: 12))
+                                .foregroundColor(AppTheme.textMuted)
+                                .multilineTextAlignment(.center)
+                                .lineSpacing(2)
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 24)
+                        .padding(.bottom, 40)
                     }
                     .padding(.top, 8)
                     .frame(width: geometry.size.width)

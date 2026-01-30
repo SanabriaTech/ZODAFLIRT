@@ -41,7 +41,7 @@ struct AstrologyExperienceView: View {
                     // Content
                     VStack(spacing: 32) {
                         VStack(spacing: 12) {
-                            Text("How familiar are you\nwith astrology?")
+                            Text("How familiar are you with personality types?")
                                 .font(AppTheme.serifFont(size: 32))
                                 .foregroundColor(AppTheme.textPrimary)
                                 .multilineTextAlignment(.center)
@@ -72,14 +72,14 @@ struct AstrologyExperienceView: View {
                     Button(action: onContinue) {
                         Text("Continue")
                             .font(AppTheme.sansFontMedium(size: 17))
-                            .foregroundColor(selectedExperience != nil ? AppTheme.textPrimary : AppTheme.textMuted)
+                            .foregroundColor(selectedExperience != nil ? .white : AppTheme.textMuted)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
-                            .background(AppTheme.cardBackground)
+                            .background(AppTheme.buttonPrimaryBackground)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(selectedExperience != nil ? AppTheme.accent : AppTheme.cardBorder, lineWidth: 1)
+                                    .stroke(selectedExperience != nil ? AppTheme.buttonPrimaryBorder : AppTheme.cardBorder, lineWidth: 1)
                             )
                     }
                     .disabled(selectedExperience == nil)

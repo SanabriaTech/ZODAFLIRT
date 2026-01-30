@@ -48,16 +48,20 @@ struct OnboardingSummaryView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 100, height: 100)
 
-                                Text("You're ready, \(sign.name)")
-                                    .font(AppTheme.serifFont(size: 28))
+                                Text("Your Dating Profile is Ready")
+                                    .font(AppTheme.serifFont(size: 26))
                                     .foregroundColor(AppTheme.textPrimary)
+
+                                Text(sign.name)
+                                    .font(AppTheme.serifFont(size: 22))
+                                    .foregroundColor(AppTheme.accent)
                             }
                             .padding(.top, 24)
                             .opacity(showContent ? 1 : 0)
 
                             // Traits Card
                             VStack(alignment: .leading, spacing: 16) {
-                                Text("Your Romantic Traits")
+                                Text("Your Dating Strengths")
                                     .font(AppTheme.serifFont(size: 20))
                                     .foregroundColor(AppTheme.textPrimary)
 
@@ -136,7 +140,7 @@ struct OnboardingSummaryView: View {
                             .opacity(showContent ? 1 : 0)
 
                             // Premium hint
-                            Text("Unlock Premium for deeper compatibility insights")
+                            Text("Unlock Premium for complete dating guides")
                                 .font(AppTheme.sansFont(size: 13))
                                 .foregroundColor(AppTheme.textMuted)
                                 .opacity(showContent ? 1 : 0)
@@ -148,13 +152,17 @@ struct OnboardingSummaryView: View {
 
                     // Continue Button
                     Button(action: onContinue) {
-                        Text("Start Exploring")
+                        Text("Get Dating Guidance")
                             .font(AppTheme.sansFontMedium(size: 17))
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
-                            .background(AppTheme.accent)
+                            .background(AppTheme.buttonPrimaryBackground)
                             .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
+                            )
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 40)

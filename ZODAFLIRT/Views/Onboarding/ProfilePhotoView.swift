@@ -146,14 +146,14 @@ struct ProfilePhotoView: View {
                     }) {
                         Text("Continue")
                             .font(AppTheme.sansFontMedium(size: 17))
-                            .foregroundColor(AppTheme.textPrimary)
+                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
-                            .background(AppTheme.cardBackground)
+                            .background(AppTheme.buttonPrimaryBackground)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(AppTheme.accent, lineWidth: 1)
+                                    .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
                             )
                     }
                     .padding(.horizontal, 24)

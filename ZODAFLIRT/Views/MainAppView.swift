@@ -12,6 +12,7 @@ struct MainAppView: View {
     @State private var hasCompletedOnboarding = false
     @State private var showOnboarding = false
     @State private var showGoalSelector = true
+    @State private var showPersonalityIntro = false
     @State private var selectedContext: DatingContext? = nil
 
     var body: some View {
@@ -21,10 +22,16 @@ struct MainAppView: View {
                     GoalSelectorView { context in
                         selectedContext = context
                         showGoalSelector = false
+                        showPersonalityIntro = true
+                    }
+                } else if showPersonalityIntro {
+                    PersonalityTypeIntroView {
+                        showPersonalityIntro = false
                     }
                 } else {
                     HomeView(datingContext: selectedContext, onBack: {
                         showGoalSelector = true
+                        showPersonalityIntro = false
                         selectedContext = nil
                     })
                 }
@@ -43,6 +50,7 @@ struct MainAppView: View {
         .animation(.easeInOut(duration: 0.3), value: showOnboarding)
         .animation(.easeInOut(duration: 0.3), value: hasCompletedOnboarding)
         .animation(.easeInOut(duration: 0.3), value: showGoalSelector)
+        .animation(.easeInOut(duration: 0.3), value: showPersonalityIntro)
         .onAppear {
             // Check if user has already completed onboarding
             if userManager.userProfile.hasCompletedOnboarding {

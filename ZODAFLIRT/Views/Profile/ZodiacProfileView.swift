@@ -55,13 +55,21 @@ struct ZodiacProfileView: View {
                                 .font(AppTheme.serifFont(size: 32))
                                 .foregroundColor(AppTheme.textPrimary)
 
+                            Text("Personality Type")
+                                .font(AppTheme.sansFontMedium(size: 14))
+                                .foregroundColor(AppTheme.accent)
+
                             Text(profile.sign.dateRange)
-                                .font(AppTheme.sansFont(size: 15))
-                                .foregroundColor(AppTheme.textSecondary)
+                                .font(AppTheme.sansFont(size: 14))
+                                .foregroundColor(AppTheme.textMuted)
                         }
 
-                        // Introduction Section
+                        // Personality Snapshot Section
                         VStack(alignment: .leading, spacing: 12) {
+                            Text("Personality Snapshot")
+                                .font(AppTheme.sansFontMedium(size: 14))
+                                .foregroundColor(AppTheme.accent)
+
                             Text(profile.tagline)
                                 .font(AppTheme.serifFont(size: 22))
                                 .foregroundColor(AppTheme.textPrimary)
@@ -75,9 +83,9 @@ struct ZodiacProfileView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
 
-                        // How to Attract Section (Always Free)
+                        // Getting Their Attention Section (Always Free)
                         VStack(alignment: .leading, spacing: 12) {
-                            Text(profile.howToAttract.title)
+                            Text("Getting Their Attention")
                                 .font(AppTheme.serifFont(size: 24))
                                 .foregroundColor(AppTheme.textPrimary)
 
@@ -105,10 +113,10 @@ struct ZodiacProfileView: View {
                             }
                         )
 
-                        // How to Seduce Section
+                        // Building Chemistry Section
                         VStack(alignment: .leading, spacing: 16) {
                             HStack {
-                                Text(profile.howToSeduce.title)
+                                Text("Building Chemistry")
                                     .font(AppTheme.serifFont(size: 24))
                                     .foregroundColor(AppTheme.textPrimary)
 
@@ -140,7 +148,7 @@ struct ZodiacProfileView: View {
 
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
-                                        Text("Scenario \(scenario.number):")
+                                        Text("Approach \(scenario.number):")
                                             .font(AppTheme.sansFontMedium(size: 15))
                                             .foregroundColor(AppTheme.accent)
 
@@ -158,7 +166,7 @@ struct ZodiacProfileView: View {
                                     }
 
                                     if isLocked {
-                                        Text("Unlock to discover this scenario...")
+                                        Text("Unlock to discover this approach...")
                                             .font(AppTheme.sansFont(size: 14))
                                             .foregroundColor(AppTheme.textMuted)
                                             .italic()
@@ -182,16 +190,16 @@ struct ZodiacProfileView: View {
                             // Unlock button - Sign-specific CTA
                             if profile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
                                 Button(action: { showPaywall = true }) {
-                                    Text("Unlock the Full \(profile.sign.name) Playbook")
+                                    Text("Unlock Full Dating Guide")
                                         .font(AppTheme.sansFontMedium(size: 15))
-                                        .foregroundColor(AppTheme.accent)
+                                        .foregroundColor(.white)
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 48)
-                                        .background(AppTheme.cardBackground)
+                                        .background(AppTheme.buttonPrimaryBackground)
                                         .cornerRadius(12)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 12)
-                                                .stroke(AppTheme.accent, lineWidth: 1)
+                                                .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
                                         )
                                 }
                             }
@@ -209,9 +217,9 @@ struct ZodiacProfileView: View {
                             }
                         )
 
-                        // Must-Do's Section
+                        // What Works Section
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("Must-Do's")
+                            Text("What Works")
                                 .font(AppTheme.serifFont(size: 24))
                                 .foregroundColor(AppTheme.textPrimary)
 
@@ -236,9 +244,9 @@ struct ZodiacProfileView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
 
-                        // No-No's Section
+                        // What to Avoid Section
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("No-No's")
+                            Text("What to Avoid")
                                 .font(AppTheme.serifFont(size: 24))
                                 .foregroundColor(AppTheme.textPrimary)
 
@@ -267,14 +275,14 @@ struct ZodiacProfileView: View {
                         Button(action: onSave) {
                             Text("Save This Profile")
                                 .font(AppTheme.sansFontMedium(size: 17))
-                                .foregroundColor(AppTheme.textPrimary)
+                                .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 52)
-                                .background(AppTheme.cardBackground)
+                                .background(AppTheme.buttonPrimaryBackground)
                                 .cornerRadius(12)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .stroke(AppTheme.accent, lineWidth: 1)
+                                        .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
                                 )
                         }
                         .padding(.horizontal, 24)

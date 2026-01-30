@@ -71,7 +71,7 @@ struct DatingPlaybookCard: View {
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(isHighlighted && isUnlocked ? AppTheme.accent : (isUnlocked ? AppTheme.cardBorder : AppTheme.cardBorder.opacity(0.5)), lineWidth: isHighlighted && isUnlocked ? 2 : 1)
+                .stroke(isHighlighted && isUnlocked ? AppTheme.accent : AppTheme.cardBorder, lineWidth: isHighlighted && isUnlocked ? 1.5 : 1)
         )
     }
 }

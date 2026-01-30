@@ -90,8 +90,12 @@ struct DatingPlaybookSection: View {
                 }
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(AppTheme.accent.opacity(0.1))
+                .background(AppTheme.cardBackground)
                 .cornerRadius(8)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(AppTheme.cardBorder, lineWidth: 1)
+                )
             }
 
             // Playbook Cards (ordered by context)
@@ -117,11 +121,15 @@ struct DatingPlaybookSection: View {
                                 Text("Use Your Free Unlock")
                                     .font(AppTheme.sansFontMedium(size: 16))
                             }
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 50)
-                            .background(AppTheme.accent)
+                            .background(AppTheme.buttonPrimaryBackground)
                             .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
+                            )
                         }
                     }
 
@@ -132,11 +140,11 @@ struct DatingPlaybookSection: View {
                             .foregroundColor(AppTheme.accent)
                             .frame(maxWidth: .infinity)
                             .frame(height: 48)
-                            .background(AppTheme.cardBackground)
+                            .background(AppTheme.buttonSecondaryBackground)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(AppTheme.accent, lineWidth: 1)
+                                    .stroke(AppTheme.buttonSecondaryBorder, lineWidth: 1)
                             )
                     }
                 }

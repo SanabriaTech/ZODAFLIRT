@@ -17,7 +17,7 @@ struct IntimacySection: View {
         VStack(alignment: .leading, spacing: 16) {
             // Section Header
             HStack {
-                Text("Intimacy & Physical Chemistry")
+                Text("Physical Connection")
                     .font(AppTheme.serifFont(size: 24))
                     .foregroundColor(AppTheme.textPrimary)
 
@@ -102,17 +102,17 @@ struct IntimacySection: View {
                         HStack {
                             Image(systemName: "sparkles")
                                 .font(.system(size: 16))
-                            Text("Unlock Intimate Insights")
+                            Text("Unlock Connection Guide")
                                 .font(AppTheme.sansFontMedium(size: 16))
                         }
-                        .foregroundColor(AppTheme.accent)
+                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
-                        .background(AppTheme.cardBackground)
+                        .background(AppTheme.buttonPrimaryBackground)
                         .cornerRadius(12)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .stroke(AppTheme.accent, lineWidth: 1)
+                                .stroke(AppTheme.buttonPrimaryBorder, lineWidth: 1)
                         )
                     }
                 }

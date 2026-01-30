@@ -28,14 +28,14 @@ struct HomeView: View {
         if let context = datingContext {
             switch context {
             case .date:
-                return "Who's the lucky one?"
+                return "Select their personality type"
             case .phoneCall:
-                return "Who are you calling?"
+                return "Select their personality type"
             case .texting:
-                return "Who are you texting?"
+                return "Select their personality type"
             }
         }
-        return "Who are you curious about?"
+        return "Who are you connecting with?"
     }
 
     var body: some View {
@@ -55,12 +55,11 @@ struct HomeView: View {
                         }
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Zodaflirt")
+                            Text("DaterUp!")
                                 .font(AppTheme.serifFont(size: 28))
                                 .foregroundColor(AppTheme.textPrimary)
-                            Text("Zodiac seduction!")
-                                .font(AppTheme.serifFont(size: 28))
-                                .italic()
+                            Text("Dating Intelligence")
+                                .font(AppTheme.sansFont(size: 16))
                                 .foregroundColor(AppTheme.accent)
                         }
 
@@ -112,9 +111,17 @@ struct HomeView: View {
                         .foregroundColor(AppTheme.textSecondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 8)
 
-                    // Zodiac Grid
+                    // Section label
+                    Text("Personality Types")
+                        .font(AppTheme.sansFontMedium(size: 12))
+                        .foregroundColor(AppTheme.textMuted)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 16)
+
+                    // Personality Grid
                     ScrollView(showsIndicators: false) {
                         LazyVGrid(columns: columns, spacing: 12) {
                             ForEach(ZodiacSign.allCases) { sign in

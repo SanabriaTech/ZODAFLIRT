@@ -51,7 +51,7 @@ struct PaywallView: View {
                                 .font(AppTheme.serifFont(size: 32))
                                 .foregroundColor(AppTheme.textPrimary)
 
-                            Text("Get the complete seduction playbook\nfor every zodiac sign")
+                            Text("Get the complete dating guide\nfor every personality type")
                                 .font(AppTheme.sansFont(size: 16))
                                 .foregroundColor(AppTheme.textSecondary)
                                 .multilineTextAlignment(.center)
@@ -60,8 +60,8 @@ struct PaywallView: View {
 
                         // Features List
                         VStack(alignment: .leading, spacing: 16) {
-                            FeatureRow(icon: "flame.fill", text: "Full seduction scenarios for all signs")
-                            FeatureRow(icon: "heart.fill", text: "Physical chemistry insights")
+                            FeatureRow(icon: "heart.fill", text: "Complete dating guides for all types")
+                            FeatureRow(icon: "person.2.fill", text: "Physical connection insights")
                             FeatureRow(icon: "book.fill", text: "Unlimited dating playbooks")
                             FeatureRow(icon: "sparkles", text: "Deep compatibility analysis")
                             FeatureRow(icon: "star.fill", text: "New content added regularly")
@@ -118,17 +118,23 @@ struct PaywallView: View {
                             HStack {
                                 if isPurchasing {
                                     ProgressView()
-                                        .tint(.black)
+                                        .tint(.white)
                                 } else {
                                     Text("Continue")
                                         .font(AppTheme.sansFontMedium(size: 17))
                                 }
                             }
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 54)
-                            .background(selectedProduct != nil ? AppTheme.accent : AppTheme.accent.opacity(0.5))
-                            .cornerRadius(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(selectedProduct != nil ? AppTheme.buttonPrimaryBackground : AppTheme.buttonPrimaryBackground.opacity(0.5))
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(selectedProduct != nil ? AppTheme.buttonPrimaryBorder : AppTheme.buttonPrimaryBorder.opacity(0.5), lineWidth: 1)
+                            )
                         }
                         .disabled(selectedProduct == nil || isPurchasing)
                         .padding(.horizontal, 24)
@@ -260,7 +266,7 @@ struct SubscriptionOptionCard: View {
                         if let badge = badge {
                             Text(badge)
                                 .font(AppTheme.sansFontMedium(size: 10))
-                                .foregroundColor(.black)
+                                .foregroundColor(AppTheme.background)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
                                 .background(AppTheme.accent)

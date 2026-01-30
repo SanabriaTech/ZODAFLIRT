@@ -76,14 +76,14 @@ struct DatingIntentView: View {
                     Button(action: onContinue) {
                         Text("Continue")
                             .font(AppTheme.sansFontMedium(size: 17))
-                            .foregroundColor(!selectedIntents.isEmpty ? AppTheme.textPrimary : AppTheme.textMuted)
+                            .foregroundColor(!selectedIntents.isEmpty ? .white : AppTheme.textMuted)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
-                            .background(AppTheme.cardBackground)
+                            .background(AppTheme.buttonPrimaryBackground)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(!selectedIntents.isEmpty ? AppTheme.accent : AppTheme.cardBorder, lineWidth: 1)
+                                    .stroke(!selectedIntents.isEmpty ? AppTheme.buttonPrimaryBorder : AppTheme.cardBorder, lineWidth: 1)
                             )
                     }
                     .disabled(selectedIntents.isEmpty)

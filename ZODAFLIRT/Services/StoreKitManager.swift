@@ -8,6 +8,9 @@
 import Foundation
 import StoreKit
 import Observation
+import os
+
+private let logger = Logger(subsystem: "SanTech.ZODA", category: "StoreKit")
 
 @Observable
 @MainActor
@@ -70,7 +73,7 @@ final class StoreKitManager {
             products.sort { $0.price < $1.price }
         } catch {
             errorMessage = "Failed to load products: \(error.localizedDescription)"
-            print("Failed to load products: \(error)")
+            logger.error("Failed to load products: \(error.localizedDescription)")
         }
 
         isLoading = false
@@ -139,7 +142,7 @@ final class StoreKitManager {
                     purchased.insert(transaction.productID)
                 }
             } catch {
-                print("Transaction verification failed: \(error)")
+                logger.warning("Transaction verification failed: \(error.localizedDescription)")
             }
         }
 
@@ -150,6 +153,7 @@ final class StoreKitManager {
 
     private func listenForTransactions() -> Task<Void, Error> {
         return Task.detached { [weak self] in
+            let detachedLogger = Logger(subsystem: "SanTech.ZODA", category: "StoreKit")
             for await result in Transaction.updates {
                 guard let self else { continue }
                 do {
@@ -157,7 +161,7 @@ final class StoreKitManager {
                     await self.updatePurchasedProducts()
                     await transaction.finish()
                 } catch {
-                    print("Transaction listener error: \(error)")
+                    detachedLogger.error("Transaction listener error: \(error.localizedDescription)")
                 }
             }
         }
