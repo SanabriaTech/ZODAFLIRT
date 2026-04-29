@@ -7,16 +7,6 @@
 
 import Foundation
 
-// MARK: - Gender
-
-enum Gender: String, CaseIterable, Identifiable, Codable {
-    case male = "Male"
-    case female = "Female"
-    case preferNotToSay = "Prefer not to say"
-
-    var id: String { rawValue }
-}
-
 // MARK: - Astrology Experience Level
 
 enum AstrologyExperience: String, CaseIterable, Identifiable, Codable {
@@ -43,7 +33,6 @@ enum DatingIntent: String, CaseIterable, Identifiable, Codable {
 struct UserProfile: Codable {
     var name: String?
     var birthday: Date?
-    var gender: String?
     var astrologyExperience: String?
     var datingIntents: [String]
     var savedSigns: [String]
@@ -58,7 +47,6 @@ struct UserProfile: Codable {
     init() {
         self.name = nil
         self.birthday = nil
-        self.gender = nil
         self.astrologyExperience = nil
         self.datingIntents = []
         self.savedSigns = []

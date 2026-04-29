@@ -64,11 +64,6 @@ final class UserManager {
         save()
     }
 
-    func updateGender(_ gender: Gender?) {
-        userProfile.gender = gender?.rawValue
-        save()
-    }
-
     func updateName(_ name: String) {
         userProfile.name = name
         save()

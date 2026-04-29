@@ -48,6 +48,18 @@ struct ZodiacProfileView: View {
         }
     }
 
+    private var displayPlaybook: DatingPlaybook {
+        guard let context = userManager.getGuidanceContext() else {
+            return DatingPlaybookData.getPlaybook(for: profile.sign)
+        }
+        switch context {
+        case .heteroManToWoman, .lesbianWomanToWoman:
+            return DatingPlaybookDataWomen.getPlaybook(for: profile.sign, context: context)
+        case .heteroWomanToMan, .gayManToMan:
+            return DatingPlaybookDataMen.getPlaybook(for: profile.sign, context: context)
+        }
+    }
+
     private static func merge(override: ZodiacProfile, fallback: ZodiacProfile) -> ZodiacProfile {
         ZodiacProfile(
             sign: override.sign,
@@ -172,7 +184,7 @@ struct ZodiacProfileView: View {
 
                         // Dating Playbook Section
                         DatingPlaybookSection(
-                            playbook: DatingPlaybookData.getPlaybook(for: profile.sign),
+                            playbook: displayPlaybook,
                             datingContext: datingContext,
                             isPremium: premiumManager.isPremium,
                             hasPlaybookAccess: userManager.hasPlaybookAccess(for: profile.sign),
