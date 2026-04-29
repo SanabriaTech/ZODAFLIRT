@@ -18,6 +18,64 @@ struct ZodiacProfileView: View {
     @Environment(StoreKitManager.self) var storeKitManager
     @State private var showPaywall = false
 
+    // Picks gender-specific content based on the user's GuidanceContext.
+    // Falls back to the originally-passed profile for fields the gendered
+    // dataset hasn't filled in yet (e.g. physicalChemistry.content from
+    // SampleDataWomen, which Session 2B will populate).
+    private var displayProfile: ZodiacProfile {
+        guard let context = userManager.getGuidanceContext() else {
+            return profile
+        }
+        switch context {
+        case .heteroManToWoman, .lesbianWomanToWoman:
+            let womenProfile = SampleDataWomen.getProfile(for: profile.sign, context: context)
+            return Self.merge(override: womenProfile, fallback: profile)
+        case .heteroWomanToMan, .gayManToMan:
+            let menProfile = SampleDataMen.getProfile(for: profile.sign, context: context)
+            return Self.merge(override: menProfile, fallback: profile)
+        }
+    }
+
+    private var displayIntimacyProfile: IntimacyProfile {
+        guard let context = userManager.getGuidanceContext() else {
+            return IntimacyData.getProfile(for: profile.sign)
+        }
+        switch context {
+        case .heteroManToWoman, .lesbianWomanToWoman:
+            return IntimacyDataWomen.getProfile(for: profile.sign, context: context)
+        case .heteroWomanToMan, .gayManToMan:
+            return IntimacyDataMen.getProfile(for: profile.sign, context: context)
+        }
+    }
+
+    private static func merge(override: ZodiacProfile, fallback: ZodiacProfile) -> ZodiacProfile {
+        ZodiacProfile(
+            sign: override.sign,
+            tagline: override.tagline.isEmpty ? fallback.tagline : override.tagline,
+            introduction: override.introduction.isEmpty ? fallback.introduction : override.introduction,
+            howToAttract: ProfileSection(
+                title: override.howToAttract.title,
+                content: override.howToAttract.content.isEmpty ? fallback.howToAttract.content : override.howToAttract.content,
+                teaser: override.howToAttract.teaser ?? fallback.howToAttract.teaser,
+                isPremium: override.howToAttract.isPremium
+            ),
+            howToSeduce: SeductionSection(
+                title: override.howToSeduce.title,
+                introduction: override.howToSeduce.introduction.isEmpty ? fallback.howToSeduce.introduction : override.howToSeduce.introduction,
+                scenarios: override.howToSeduce.scenarios.isEmpty ? fallback.howToSeduce.scenarios : override.howToSeduce.scenarios,
+                isPremiumContent: override.howToSeduce.isPremiumContent
+            ),
+            physicalChemistry: ProfileSection(
+                title: override.physicalChemistry.title,
+                content: override.physicalChemistry.content.isEmpty ? fallback.physicalChemistry.content : override.physicalChemistry.content,
+                teaser: override.physicalChemistry.teaser ?? fallback.physicalChemistry.teaser,
+                isPremium: override.physicalChemistry.isPremium
+            ),
+            mustDos: override.mustDos.isEmpty ? fallback.mustDos : override.mustDos,
+            avoids: override.avoids.isEmpty ? fallback.avoids : override.avoids
+        )
+    }
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -55,6 +113,20 @@ struct ZodiacProfileView: View {
                                 .font(AppTheme.serifFont(size: 32))
                                 .foregroundColor(AppTheme.textPrimary)
 
+                            if let target = userManager.getGuidanceTarget() {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "person.2.fill")
+                                        .font(.system(size: 11))
+                                    Text("Guidance on \(target.displayName.lowercased())")
+                                        .font(AppTheme.sansFont(size: 12))
+                                }
+                                .foregroundColor(AppTheme.accent)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(AppTheme.accent.opacity(0.15))
+                                .cornerRadius(12)
+                            }
+
                             Text("Personality Type")
                                 .font(AppTheme.sansFontMedium(size: 14))
                                 .foregroundColor(AppTheme.accent)
@@ -70,11 +142,11 @@ struct ZodiacProfileView: View {
                                 .font(AppTheme.sansFontMedium(size: 14))
                                 .foregroundColor(AppTheme.accent)
 
-                            Text(profile.tagline)
+                            Text(displayProfile.tagline)
                                 .font(AppTheme.serifFont(size: 22))
                                 .foregroundColor(AppTheme.textPrimary)
 
-                            Text(profile.introduction)
+                            Text(displayProfile.introduction)
                                 .font(AppTheme.sansFont(size: 16))
                                 .foregroundColor(AppTheme.textSecondary)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -89,7 +161,7 @@ struct ZodiacProfileView: View {
                                 .font(AppTheme.serifFont(size: 24))
                                 .foregroundColor(AppTheme.textPrimary)
 
-                            Text(profile.howToAttract.content)
+                            Text(displayProfile.howToAttract.content)
                                 .font(AppTheme.sansFont(size: 16))
                                 .foregroundColor(AppTheme.textSecondary)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -122,29 +194,29 @@ struct ZodiacProfileView: View {
 
                                 Spacer()
 
-                                if profile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
+                                if displayProfile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
                                     Image(systemName: "lock.fill")
                                         .font(.system(size: 14))
                                         .foregroundColor(AppTheme.accent)
                                 }
                             }
 
-                            Text(profile.howToSeduce.introduction)
+                            Text(displayProfile.howToSeduce.introduction)
                                 .font(AppTheme.sansFont(size: 16))
                                 .foregroundColor(AppTheme.textSecondary)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineSpacing(4)
 
                             // Scenarios with Premium Boundary
-                            ForEach(Array(profile.howToSeduce.scenarios.enumerated()), id: \.element.id) { index, scenario in
+                            ForEach(Array(displayProfile.howToSeduce.scenarios.enumerated()), id: \.element.id) { index, scenario in
 
                                 // Add premium boundary before second scenario
-                                if index == 1 && profile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
+                                if index == 1 && displayProfile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
                                     PremiumBoundaryDivider(message: "This is where things get more personal.")
                                         .padding(.vertical, 8)
                                 }
 
-                                let isLocked = index > 0 && profile.howToSeduce.isPremiumContent && !premiumManager.isPremium
+                                let isLocked = index > 0 && displayProfile.howToSeduce.isPremiumContent && !premiumManager.isPremium
 
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
@@ -188,7 +260,7 @@ struct ZodiacProfileView: View {
                             }
 
                             // Unlock button - Sign-specific CTA
-                            if profile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
+                            if displayProfile.howToSeduce.isPremiumContent && !premiumManager.isPremium {
                                 Button(action: { showPaywall = true }) {
                                     Text("Unlock Full Dating Guide")
                                         .font(AppTheme.sansFontMedium(size: 15))
@@ -209,7 +281,7 @@ struct ZodiacProfileView: View {
 
                         // Intimacy & Physical Chemistry Section
                         IntimacySection(
-                            intimacyProfile: IntimacyData.getProfile(for: profile.sign),
+                            intimacyProfile: displayIntimacyProfile,
                             isPremium: premiumManager.isPremium,
                             userIntents: userManager.userProfile.datingIntents,
                             onUnlock: {
@@ -224,7 +296,7 @@ struct ZodiacProfileView: View {
                                 .foregroundColor(AppTheme.textPrimary)
 
                             VStack(alignment: .leading, spacing: 12) {
-                                ForEach(profile.mustDos) { item in
+                                ForEach(displayProfile.mustDos) { item in
                                     HStack(alignment: .top, spacing: 12) {
                                         Image(systemName: "checkmark")
                                             .font(.system(size: 14, weight: .semibold))
@@ -251,7 +323,7 @@ struct ZodiacProfileView: View {
                                 .foregroundColor(AppTheme.textPrimary)
 
                             VStack(alignment: .leading, spacing: 12) {
-                                ForEach(profile.avoids) { item in
+                                ForEach(displayProfile.avoids) { item in
                                     HStack(alignment: .top, spacing: 12) {
                                         Image(systemName: "xmark")
                                             .font(.system(size: 14, weight: .semibold))

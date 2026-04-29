@@ -16,6 +16,8 @@ struct OnboardingFlowView: View {
     @State private var userBirthday: Date = Calendar.current.date(byAdding: .year, value: -25, to: Date()) ?? Date()
     @State private var selectedExperience: AstrologyExperience? = nil
     @State private var selectedIntents: Set<DatingIntent> = []
+    @State private var selectedGender: UserGender? = nil
+    @State private var selectedGuidanceTarget: GuidanceTarget? = nil
 
     private var userSign: ZodiacSign {
         ZodiacSign.from(date: userBirthday)
@@ -40,10 +42,43 @@ struct OnboardingFlowView: View {
                 ZodiacRevealView(
                     sign: userSign,
                     onContinue: {
-                        goToStep(.profilePhoto)
+                        goToStep(.gender)
                     },
                     onBack: {
                         goToStep(.birthday)
+                    }
+                )
+
+            case .gender:
+                GenderSelectionView(
+                    selectedGender: $selectedGender,
+                    onContinue: {
+                        if let gender = selectedGender {
+                            userManager.setUserGender(gender)
+                            // Sync the default target into local state so the next screen pre-selects
+                            if selectedGuidanceTarget == nil {
+                                selectedGuidanceTarget = userManager.getGuidanceTarget()
+                            }
+                        }
+                        goToStep(.guidanceTarget)
+                    },
+                    onBack: {
+                        goToStep(.zodiacReveal)
+                    }
+                )
+
+            case .guidanceTarget:
+                GuidanceTargetView(
+                    userGender: selectedGender,
+                    selectedTarget: $selectedGuidanceTarget,
+                    onContinue: {
+                        if let target = selectedGuidanceTarget {
+                            userManager.setGuidanceTarget(target)
+                        }
+                        goToStep(.profilePhoto)
+                    },
+                    onBack: {
+                        goToStep(.gender)
                     }
                 )
 
@@ -54,7 +89,7 @@ struct OnboardingFlowView: View {
                         goToStep(.experience)
                     },
                     onBack: {
-                        goToStep(.zodiacReveal)
+                        goToStep(.guidanceTarget)
                     }
                 )
                 .environment(userManager)

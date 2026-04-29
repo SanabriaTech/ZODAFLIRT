@@ -8,11 +8,20 @@ import SwiftUI
 struct BestConnectionsSection: View {
     let userSign: ZodiacSign
     let isPremium: Bool
+    let guidanceContext: GuidanceContext?
     let onConnectionTap: (ZodiacSign) -> Void
     let onUnlock: () -> Void
 
     private var matches: [CompatibilityMatch] {
-        ZodiacCompatibility.getBestMatches(for: userSign)
+        guard let context = guidanceContext else {
+            return ZodiacCompatibility.getBestMatches(for: userSign)
+        }
+        switch context {
+        case .heteroManToWoman, .lesbianWomanToWoman:
+            return ZodiacCompatibilityWomen.getBestMatches(for: userSign, context: context)
+        case .heteroWomanToMan, .gayManToMan:
+            return ZodiacCompatibilityMen.getBestMatches(for: userSign, context: context)
+        }
     }
 
     var body: some View {
@@ -74,6 +83,7 @@ struct BestConnectionsSection: View {
             BestConnectionsSection(
                 userSign: .aries,
                 isPremium: false,
+                guidanceContext: nil,
                 onConnectionTap: { _ in },
                 onUnlock: { }
             )

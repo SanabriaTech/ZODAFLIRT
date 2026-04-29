@@ -13,6 +13,7 @@ struct UserProfileView: View {
     @Environment(PremiumManager.self) var premiumManager
     @Environment(StoreKitManager.self) var storeKitManager
     @Environment(\.dismiss) var dismiss
+    @Environment(\.openURL) private var openURL
 
     @State private var showingImagePicker = false
     @State private var showingNameEditor = false
@@ -20,6 +21,13 @@ struct UserProfileView: View {
     @State private var selectedPhotoItem: PhotosPickerItem?
     @State private var showPaywall = false
     @State private var selectedConnectionSign: ZodiacSign? = nil
+    @State private var showRestoreSuccess = false
+    @State private var showRestoreNoPurchases = false
+    @State private var isRestoring = false
+
+    // MARK: - Legal URLs
+    private let termsURL = URL(string: "https://www.sanabriatech.com/st-terms")!
+    private let privacyURL = URL(string: "https://www.sanabriatech.com/privacy")!
 
     var body: some View {
         GeometryReader { geometry in
@@ -177,10 +185,69 @@ struct UserProfileView: View {
                             )
                             .padding(.horizontal, 24)
 
+                            // Guidance Settings Section
+                            if let target = userManager.getGuidanceTarget() {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    Text("Guidance Settings")
+                                        .font(AppTheme.serifFont(size: 20))
+                                        .foregroundColor(AppTheme.textPrimary)
+
+                                    VStack(spacing: 12) {
+                                        HStack {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text("Currently getting guidance on")
+                                                    .font(AppTheme.sansFont(size: 13))
+                                                    .foregroundColor(AppTheme.textSecondary)
+
+                                                Text(target.displayName)
+                                                    .font(AppTheme.sansFontMedium(size: 18))
+                                                    .foregroundColor(AppTheme.textPrimary)
+                                            }
+
+                                            Spacer()
+
+                                            Image(systemName: "person.2.fill")
+                                                .font(.system(size: 22))
+                                                .foregroundColor(AppTheme.accent)
+                                        }
+                                        .padding(16)
+                                        .background(AppTheme.cardBackground)
+                                        .cornerRadius(12)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(AppTheme.cardBorder, lineWidth: 1)
+                                        )
+
+                                        Button(action: {
+                                            userManager.toggleGuidanceTarget()
+                                        }) {
+                                            HStack {
+                                                Image(systemName: "arrow.left.arrow.right")
+                                                    .font(.system(size: 14))
+                                                Text("Switch to guidance on \(target == .women ? "men" : "women")")
+                                                    .font(AppTheme.sansFontMedium(size: 15))
+                                            }
+                                            .foregroundColor(AppTheme.accent)
+                                            .frame(maxWidth: .infinity)
+                                            .frame(height: 48)
+                                            .background(AppTheme.cardBackground)
+                                            .cornerRadius(12)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(AppTheme.buttonSecondaryBorder, lineWidth: 1)
+                                            )
+                                        }
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 24)
+                            }
+
                             // Best Connections Section
                             BestConnectionsSection(
                                 userSign: sign,
                                 isPremium: premiumManager.isPremium,
+                                guidanceContext: userManager.getGuidanceContext(),
                                 onConnectionTap: { connectionSign in
                                     selectedConnectionSign = connectionSign
                                 },
@@ -266,6 +333,112 @@ struct UserProfileView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
 
+                        // Legal Section
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Legal")
+                                .font(AppTheme.serifFont(size: 20))
+                                .foregroundColor(AppTheme.textPrimary)
+
+                            VStack(spacing: 0) {
+                                // Terms of Use
+                                Button(action: {
+                                    openURL(termsURL)
+                                }) {
+                                    HStack {
+                                        Image(systemName: "doc.text")
+                                            .font(.system(size: 16))
+                                            .foregroundColor(AppTheme.textSecondary)
+                                            .frame(width: 24)
+
+                                        Text("Terms of Use")
+                                            .font(AppTheme.sansFont(size: 15))
+                                            .foregroundColor(AppTheme.textPrimary)
+
+                                        Spacer()
+
+                                        Image(systemName: "arrow.up.right")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(AppTheme.textMuted)
+                                    }
+                                    .padding(16)
+                                }
+
+                                Divider()
+                                    .background(AppTheme.cardBorder)
+                                    .padding(.leading, 56)
+
+                                // Privacy Policy
+                                Button(action: {
+                                    openURL(privacyURL)
+                                }) {
+                                    HStack {
+                                        Image(systemName: "hand.raised")
+                                            .font(.system(size: 16))
+                                            .foregroundColor(AppTheme.textSecondary)
+                                            .frame(width: 24)
+
+                                        Text("Privacy Policy")
+                                            .font(AppTheme.sansFont(size: 15))
+                                            .foregroundColor(AppTheme.textPrimary)
+
+                                        Spacer()
+
+                                        Image(systemName: "arrow.up.right")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(AppTheme.textMuted)
+                                    }
+                                    .padding(16)
+                                }
+
+                                Divider()
+                                    .background(AppTheme.cardBorder)
+                                    .padding(.leading, 56)
+
+                                // Restore Purchases
+                                Button(action: {
+                                    Task {
+                                        isRestoring = true
+                                        await storeKitManager.restorePurchases()
+                                        premiumManager.updateFromStoreKit()
+                                        isRestoring = false
+                                        if premiumManager.isPremium {
+                                            showRestoreSuccess = true
+                                        } else {
+                                            showRestoreNoPurchases = true
+                                        }
+                                    }
+                                }) {
+                                    HStack {
+                                        Image(systemName: "arrow.clockwise")
+                                            .font(.system(size: 16))
+                                            .foregroundColor(AppTheme.textSecondary)
+                                            .frame(width: 24)
+
+                                        Text("Restore Purchases")
+                                            .font(AppTheme.sansFont(size: 15))
+                                            .foregroundColor(AppTheme.textPrimary)
+
+                                        Spacer()
+
+                                        if isRestoring {
+                                            ProgressView()
+                                                .tint(AppTheme.textMuted)
+                                        }
+                                    }
+                                    .padding(16)
+                                }
+                                .disabled(isRestoring)
+                            }
+                            .background(AppTheme.cardBackground)
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(AppTheme.cardBorder, lineWidth: 1)
+                            )
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 24)
+
                         // App Disclaimer
                         VStack(spacing: 8) {
                             Divider()
@@ -318,6 +491,16 @@ struct UserProfileView: View {
             .environment(storeKitManager)
             .environment(premiumManager)
             .environment(userManager)
+        }
+        .alert("Purchases Restored", isPresented: $showRestoreSuccess) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Your purchases have been restored successfully.")
+        }
+        .alert("No Purchases Found", isPresented: $showRestoreNoPurchases) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("No previous purchases were found for this Apple ID.")
         }
     }
 

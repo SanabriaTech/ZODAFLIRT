@@ -152,4 +152,54 @@ final class UserManager {
         userProfile.currentDatingContext = nil
         save()
     }
+
+    // MARK: - Gender & Guidance Target
+
+    func setUserGender(_ gender: UserGender) {
+        userProfile.userGender = gender.rawValue
+
+        // Auto-set default guidance target based on gender if not already set
+        if userProfile.guidanceTarget == nil {
+            switch gender {
+            case .man:
+                userProfile.guidanceTarget = GuidanceTarget.women.rawValue
+            case .woman:
+                userProfile.guidanceTarget = GuidanceTarget.men.rawValue
+            case .nonBinary:
+                // Non-binary users will explicitly choose, no default
+                break
+            }
+        }
+
+        save()
+    }
+
+    func getUserGender() -> UserGender? {
+        guard let rawValue = userProfile.userGender else { return nil }
+        return UserGender(rawValue: rawValue)
+    }
+
+    func setGuidanceTarget(_ target: GuidanceTarget) {
+        userProfile.guidanceTarget = target.rawValue
+        save()
+    }
+
+    func getGuidanceTarget() -> GuidanceTarget? {
+        guard let rawValue = userProfile.guidanceTarget else { return nil }
+        return GuidanceTarget(rawValue: rawValue)
+    }
+
+    func getGuidanceContext() -> GuidanceContext? {
+        guard let gender = getUserGender(),
+              let target = getGuidanceTarget() else {
+            return nil
+        }
+        return GuidanceContext.determine(userGender: gender, target: target)
+    }
+
+    func toggleGuidanceTarget() {
+        guard let current = getGuidanceTarget() else { return }
+        let newTarget: GuidanceTarget = current == .women ? .men : .women
+        setGuidanceTarget(newTarget)
+    }
 }
