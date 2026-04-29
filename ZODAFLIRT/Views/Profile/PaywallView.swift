@@ -13,11 +13,20 @@ struct PaywallView: View {
 
     @Environment(StoreKitManager.self) var storeKitManager
     @Environment(PremiumManager.self) var premiumManager
+    @Environment(\.openURL) private var openURL
 
     @State private var selectedProduct: Product?
     @State private var isPurchasing = false
     @State private var showError = false
     @State private var errorMessage = ""
+
+    // MARK: - Legal URLs
+    private let termsURL = URL(string: "https://www.sanabriatech.com/st-terms")!
+    private let privacyURL = URL(string: "https://www.sanabriatech.com/privacy")!
+
+    // MARK: - Restore Alerts
+    @State private var showRestoreSuccess = false
+    @State private var showRestoreNoPurchases = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -109,6 +118,67 @@ struct PaywallView: View {
                             .padding(.horizontal, 24)
                         }
 
+                        // MARK: - Subscription Details (Apple Guideline 3.1.2 Compliance)
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Subscription Details")
+                                .font(AppTheme.sansFontMedium(size: 14))
+                                .foregroundColor(AppTheme.textPrimary)
+
+                            VStack(alignment: .leading, spacing: 8) {
+                                // Monthly plan details
+                                if let monthly = storeKitManager.monthlyProduct {
+                                    Text("DaterUp! Premium Monthly • \(monthly.displayPrice) per month • Renews automatically every month")
+                                        .font(AppTheme.sansFont(size: 12))
+                                        .foregroundColor(AppTheme.textSecondary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+
+                                // Yearly plan details
+                                if let yearly = storeKitManager.yearlyProduct {
+                                    Text("DaterUp! Premium Yearly • \(yearly.displayPrice) per year (\(calculateMonthlyCost(yearly))) • Renews automatically every year")
+                                        .font(AppTheme.sansFont(size: 12))
+                                        .foregroundColor(AppTheme.textSecondary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                            }
+
+                            // Apple required disclosure text
+                            Text("Payment will be charged to your Apple ID at confirmation of purchase. Subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage or cancel your subscription in Settings > Apple ID > Subscriptions.")
+                                .font(AppTheme.sansFont(size: 11))
+                                .foregroundColor(AppTheme.textMuted)
+                                .fixedSize(horizontal: false, vertical: true)
+
+                            // Legal links
+                            HStack(spacing: 16) {
+                                Button(action: {
+                                    openURL(termsURL)
+                                }) {
+                                    Text("Terms of Use")
+                                        .font(AppTheme.sansFont(size: 12))
+                                        .foregroundColor(AppTheme.accent)
+                                        .underline()
+                                }
+
+                                Button(action: {
+                                    openURL(privacyURL)
+                                }) {
+                                    Text("Privacy Policy")
+                                        .font(AppTheme.sansFont(size: 12))
+                                        .foregroundColor(AppTheme.accent)
+                                        .underline()
+                                }
+                            }
+                        }
+                        .padding(16)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(AppTheme.cardBackground)
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(AppTheme.cardBorder, lineWidth: 1)
+                        )
+                        .padding(.horizontal, 24)
+
                         // Purchase Button
                         Button(action: {
                             Task {
@@ -139,40 +209,21 @@ struct PaywallView: View {
                         .disabled(selectedProduct == nil || isPurchasing)
                         .padding(.horizontal, 24)
 
-                        // Restore & Terms
-                        VStack(spacing: 12) {
-                            Button(action: {
-                                Task {
-                                    await storeKitManager.restorePurchases()
-                                    premiumManager.updateFromStoreKit()
-                                    if premiumManager.isPremium {
-                                        onDismiss()
-                                    }
+                        // Restore Purchases
+                        Button(action: {
+                            Task {
+                                await storeKitManager.restorePurchases()
+                                premiumManager.updateFromStoreKit()
+                                if premiumManager.isPremium {
+                                    showRestoreSuccess = true
+                                } else {
+                                    showRestoreNoPurchases = true
                                 }
-                            }) {
-                                Text("Restore Purchases")
-                                    .font(AppTheme.sansFont(size: 14))
-                                    .foregroundColor(AppTheme.textSecondary)
                             }
-
-                            Text("Cancel anytime. Subscription auto-renews until cancelled.")
-                                .font(AppTheme.sansFont(size: 12))
-                                .foregroundColor(AppTheme.textMuted)
-                                .multilineTextAlignment(.center)
-
-                            HStack(spacing: 16) {
-                                Button("Terms of Use") {
-                                    // Open terms URL
-                                }
-                                .font(AppTheme.sansFont(size: 12))
-                                .foregroundColor(AppTheme.textMuted)
-
-                                Button("Privacy Policy") {
-                                    // Open privacy URL
-                                }
-                                .font(AppTheme.sansFont(size: 12))
-                                .foregroundColor(AppTheme.textMuted)
-                            }
+                        }) {
+                            Text("Restore Purchases")
+                                .font(AppTheme.sansFont(size: 14))
+                                .foregroundColor(AppTheme.textSecondary)
                         }
                         .padding(.bottom, 40)
                     }
@@ -191,6 +242,18 @@ struct PaywallView: View {
             Button("OK", role: .cancel) { }
         } message: {
             Text(errorMessage)
+        }
+        .alert("Purchases Restored", isPresented: $showRestoreSuccess) {
+            Button("OK") {
+                onDismiss()
+            }
+        } message: {
+            Text("Your purchases have been restored successfully.")
+        }
+        .alert("No Purchases Found", isPresented: $showRestoreNoPurchases) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("No previous purchases were found for this Apple ID.")
         }
     }
 
