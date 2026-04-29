@@ -175,8 +175,25 @@ final class UserManager {
     }
 
     func setGuidanceTarget(_ target: GuidanceTarget) {
+        let previousTarget = userProfile.guidanceTarget
         userProfile.guidanceTarget = target.rawValue
+
+        // If target changed AND user had used their free unlock AND haven't used a reset yet,
+        // grant one bonus reset of the free unlock.
+        if let previous = previousTarget,
+           previous != target.rawValue,
+           userProfile.freePlaybookUnlockUsed,
+           (userProfile.freeResetsUsed ?? 0) == 0 {
+            userProfile.freePlaybookUnlockUsed = false
+            userProfile.unlockedPlaybookSign = nil
+            userProfile.freeResetsUsed = 1
+        }
+
         save()
+    }
+
+    func hasUnusedFreeReset() -> Bool {
+        return !userProfile.freePlaybookUnlockUsed && (userProfile.freeResetsUsed ?? 0) > 0
     }
 
     func getGuidanceTarget() -> GuidanceTarget? {

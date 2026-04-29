@@ -148,6 +148,25 @@ struct ZodiacProfileView: View {
                                 .foregroundColor(AppTheme.textMuted)
                         }
 
+                        // Context Hero Card (only when a dating context is set)
+                        if let context = datingContext {
+                            ContextHeroCard(
+                                sign: profile.sign,
+                                context: context,
+                                playbook: displayPlaybook,
+                                isUnlocked: premiumManager.isPremium || userManager.hasPlaybookAccess(for: profile.sign),
+                                canUseFreeUnlock: !premiumManager.isPremium && userManager.canUseFreePlaybookUnlock(),
+                                onUseFreeUnlock: {
+                                    userManager.useFreePlaybookUnlock(for: profile.sign)
+                                },
+                                onUnlockPremium: {
+                                    showPaywall = true
+                                }
+                            )
+                            .padding(.horizontal, 24)
+                            .padding(.top, 16)
+                        }
+
                         // Personality Snapshot Section
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Personality Snapshot")

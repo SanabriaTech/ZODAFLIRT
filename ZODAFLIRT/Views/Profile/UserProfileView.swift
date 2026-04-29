@@ -24,6 +24,7 @@ struct UserProfileView: View {
     @State private var showRestoreSuccess = false
     @State private var showRestoreNoPurchases = false
     @State private var isRestoring = false
+    @State private var hasShownResetBanner = false
 
     // MARK: - Legal URLs
     private let termsURL = URL(string: "https://www.sanabriatech.com/st-terms")!
@@ -184,6 +185,14 @@ struct UserProfileView: View {
                                     .stroke(AppTheme.cardBorder, lineWidth: 1)
                             )
                             .padding(.horizontal, 24)
+
+                            // Reset Granted Banner — appears when guidance toggle granted a bonus reset
+                            if userManager.hasUnusedFreeReset() && !hasShownResetBanner {
+                                ResetGrantedBanner(onDismiss: {
+                                    hasShownResetBanner = true
+                                })
+                                .padding(.horizontal, 24)
+                            }
 
                             // Guidance Settings Section
                             if let target = userManager.getGuidanceTarget() {
