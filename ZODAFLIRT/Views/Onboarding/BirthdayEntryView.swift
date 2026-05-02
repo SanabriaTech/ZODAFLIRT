@@ -68,6 +68,7 @@ struct BirthdayEntryView: View {
                         )
                         .datePickerStyle(.wheel)
                         .labelsHidden()
+                        .environment(\.colorScheme, .light)
                         .frame(maxWidth: .infinity)
                         .background(AppTheme.cardBackground)
                         .cornerRadius(16)

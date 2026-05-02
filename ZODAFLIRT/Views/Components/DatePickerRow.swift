@@ -57,6 +57,7 @@ struct DatePickerRow: View {
                     )
                     .datePickerStyle(.wheel)
                     .labelsHidden()
+                    .environment(\.colorScheme, .light)
                     .padding(.horizontal, AppTheme.paddingSmall)
                 }
             }
