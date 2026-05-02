@@ -10,49 +10,23 @@ import SwiftUI
 struct MainAppView: View {
     @Environment(UserManager.self) var userManager
     @State private var hasCompletedOnboarding = false
-    @State private var showOnboarding = false
-    @State private var showGoalSelector = true
-    @State private var showPersonalityIntro = false
-    @State private var selectedContext: DatingContext? = nil
 
     var body: some View {
         Group {
             if hasCompletedOnboarding || userManager.userProfile.hasCompletedOnboarding {
-                if showGoalSelector {
-                    GoalSelectorView { context in
-                        selectedContext = context
-                        showGoalSelector = false
-                        showPersonalityIntro = true
-                    }
-                } else if showPersonalityIntro {
-                    PersonalityTypeIntroView {
-                        showPersonalityIntro = false
-                    }
-                } else {
-                    HomeView(datingContext: selectedContext, onBack: {
-                        showGoalSelector = true
-                        showPersonalityIntro = false
-                        selectedContext = nil
-                    })
-                }
-            } else if showOnboarding {
+                HomeScreenView()
+            } else if userManager.hasSeenWelcomeScreen() {
                 OnboardingFlowView(
                     hasCompletedOnboarding: $hasCompletedOnboarding,
-                    onDismiss: {
-                        showOnboarding = false
-                    }
+                    onDismiss: { }
                 )
-                .environment(userManager)
             } else {
-                WelcomeView(showOnboarding: $showOnboarding)
+                WelcomeScreenView()
             }
         }
-        .animation(.easeInOut(duration: 0.3), value: showOnboarding)
         .animation(.easeInOut(duration: 0.3), value: hasCompletedOnboarding)
-        .animation(.easeInOut(duration: 0.3), value: showGoalSelector)
-        .animation(.easeInOut(duration: 0.3), value: showPersonalityIntro)
+        .animation(.easeInOut(duration: 0.3), value: userManager.userProfile.hasSeenWelcome)
         .onAppear {
-            // Check if user has already completed onboarding
             if userManager.userProfile.hasCompletedOnboarding {
                 hasCompletedOnboarding = true
             }

@@ -14,7 +14,8 @@ struct GoalSelectorView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                CosmicBackground()
+                AppTheme.backgroundGradient
+                    .ignoresSafeArea()
 
                 VStack(spacing: 0) {
                     // Skip Button

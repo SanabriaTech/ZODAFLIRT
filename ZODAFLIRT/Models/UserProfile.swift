@@ -41,6 +41,7 @@ struct UserProfile: Codable {
     var freePlaybookUnlockUsed: Bool
     var unlockedPlaybookSign: String?
     var freeResetsUsed: Int?
+    var hasSeenWelcome: Int?
     var currentDatingContext: String?
     var userGender: String?
     var guidanceTarget: String?
@@ -56,6 +57,7 @@ struct UserProfile: Codable {
         self.freePlaybookUnlockUsed = false
         self.unlockedPlaybookSign = nil
         self.freeResetsUsed = nil
+        self.hasSeenWelcome = nil
         self.currentDatingContext = nil
         self.userGender = nil
         self.guidanceTarget = nil

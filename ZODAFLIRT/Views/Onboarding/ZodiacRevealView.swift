@@ -22,7 +22,8 @@ struct ZodiacRevealView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                CosmicBackground()
+                AppTheme.backgroundGradient
+                    .ignoresSafeArea()
 
                 VStack(spacing: 0) {
                     // Header with back button and progress

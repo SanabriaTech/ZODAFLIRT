@@ -15,12 +15,12 @@ struct OnboardingProgressBar: View {
             ZStack(alignment: .leading) {
                 // Background track
                 RoundedRectangle(cornerRadius: 2)
-                    .fill(Color.white.opacity(0.15))
+                    .fill(AppTheme.cardBorder)
                     .frame(height: 4)
 
                 // Progress fill
                 RoundedRectangle(cornerRadius: 2)
-                    .fill(AppTheme.accent)
+                    .fill(AppTheme.teal)
                     .frame(width: geometry.size.width * progress, height: 4)
                     .animation(.easeInOut(duration: 0.3), value: progress)
             }
@@ -31,7 +31,7 @@ struct OnboardingProgressBar: View {
 
 #Preview {
     ZStack {
-        Color.black.ignoresSafeArea()
+        AppTheme.backgroundGradient.ignoresSafeArea()
         OnboardingProgressBar(progress: 0.5)
             .padding()
     }

@@ -15,7 +15,8 @@ struct BirthdayEntryView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                CosmicBackground()
+                AppTheme.backgroundGradient
+                    .ignoresSafeArea()
 
                 VStack(spacing: 0) {
                     // Header with back button and progress
@@ -67,7 +68,6 @@ struct BirthdayEntryView: View {
                         )
                         .datePickerStyle(.wheel)
                         .labelsHidden()
-                        .colorScheme(.dark)
                         .frame(maxWidth: .infinity)
                         .background(AppTheme.cardBackground)
                         .cornerRadius(16)

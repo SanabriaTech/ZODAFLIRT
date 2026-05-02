@@ -196,6 +196,17 @@ final class UserManager {
         return !userProfile.freePlaybookUnlockUsed && (userProfile.freeResetsUsed ?? 0) > 0
     }
 
+    // MARK: - Welcome Screen
+
+    func hasSeenWelcomeScreen() -> Bool {
+        return (userProfile.hasSeenWelcome ?? 0) > 0
+    }
+
+    func markWelcomeSeen() {
+        userProfile.hasSeenWelcome = 1
+        save()
+    }
+
     func getGuidanceTarget() -> GuidanceTarget? {
         guard let rawValue = userProfile.guidanceTarget else { return nil }
         return GuidanceTarget(rawValue: rawValue)

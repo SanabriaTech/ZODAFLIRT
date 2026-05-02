@@ -14,7 +14,8 @@ struct WelcomeView: View {
     var body: some View {
         ZStack {
             // Background
-            CosmicBackground()
+            AppTheme.backgroundGradient
+                .ignoresSafeArea()
 
             // Content
             VStack(spacing: 0) {
@@ -67,7 +68,8 @@ struct AboutSheetView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                CosmicBackground()
+                AppTheme.backgroundGradient
+                .ignoresSafeArea()
 
                 ScrollView {
                     VStack(spacing: AppTheme.paddingLarge) {

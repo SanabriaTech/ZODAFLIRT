@@ -33,7 +33,8 @@ struct UserProfileView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                CosmicBackground()
+                AppTheme.backgroundGradient
+                    .ignoresSafeArea()
 
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 24) {

@@ -12,7 +12,8 @@ struct OnboardingFlowView: View {
     @Binding var hasCompletedOnboarding: Bool
     let onDismiss: () -> Void
 
-    @State private var currentStep: OnboardingStep = .birthday
+    @State private var currentStep: OnboardingStep = .nameEntry
+    @State private var userName: String = ""
     @State private var userBirthday: Date = Calendar.current.date(byAdding: .year, value: -25, to: Date()) ?? Date()
     @State private var selectedExperience: AstrologyExperience? = nil
     @State private var selectedIntents: Set<DatingIntent> = []
@@ -26,6 +27,20 @@ struct OnboardingFlowView: View {
     var body: some View {
         Group {
             switch currentStep {
+            case .nameEntry:
+                NameEntryView(
+                    name: $userName,
+                    onContinue: {
+                        let trimmed = userName.trimmingCharacters(in: .whitespaces)
+                        userManager.updateName(trimmed)
+                        userName = trimmed
+                        goToStep(.birthday)
+                    },
+                    onBack: {
+                        onDismiss()
+                    }
+                )
+
             case .birthday:
                 BirthdayEntryView(
                     birthday: $userBirthday,
@@ -34,7 +49,7 @@ struct OnboardingFlowView: View {
                         goToStep(.zodiacReveal)
                     },
                     onBack: {
-                        onDismiss()
+                        goToStep(.nameEntry)
                     }
                 )
 

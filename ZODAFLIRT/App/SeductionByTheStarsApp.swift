@@ -19,7 +19,6 @@ struct SeductionByTheStarsApp: App {
                 .environment(storeKitManager)
                 .environment(premiumManager)
                 .environment(userManager)
-                .preferredColorScheme(.dark)
                 .task {
                     premiumManager.configure(with: storeKitManager)
                 }
